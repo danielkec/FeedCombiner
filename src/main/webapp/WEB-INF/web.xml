@@ -13,7 +13,7 @@
         as either a HTML page or an JSON object.
     </description>
 
-    <servlet>
+<!--    <servlet>
         <servlet-name>HelloServlet</servlet-name>
         <servlet-class>examples.Hello</servlet-class>
     </servlet>
@@ -21,6 +21,6 @@
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 </web-app> 
