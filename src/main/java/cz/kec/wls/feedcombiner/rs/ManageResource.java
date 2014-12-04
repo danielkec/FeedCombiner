@@ -6,11 +6,12 @@ import cz.kec.wls.feedcombiner.model.CombinedFeed;
 import cz.kec.wls.feedcombiner.utils.JSONUtils;
 import java.net.URI;
 import java.util.List;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * RESTful resource through which you can manage (create, delete) a combined feed
@@ -18,6 +19,7 @@ import javax.ws.rs.QueryParam;
  */
 @Path("manage")
 public class ManageResource {
+    private final Logger LOG = LoggerFactory.getLogger(ManageResource.class);
     @GET
     @Produces("application/json")
     public String getAllCombinedFeeds(){
@@ -28,11 +30,11 @@ public class ManageResource {
     @GET
     @Path("create")
     @Produces("application/json")
-    //@Consumes("application/json")
     public String createCombinedFeed(
             @QueryParam("title")        String title,
             @QueryParam("description")  String description,
             @QueryParam("urls")         List<String> urls){
+        LOG.info("entering createCombinedFeed title: {}",title,description,urls);
         try {
             CombinedFeed combinedFeed = new CombinedFeed(title, description);
             for (String url : urls) {
@@ -42,10 +44,10 @@ public class ManageResource {
             combinedFeedDao.createCombinedFeed(combinedFeed);
             return JSONUtils.toJSON(combinedFeed);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception during creation of the conbined feed.", e);
             return e.getMessage();
         } catch (Error e) {
-            e.printStackTrace();
+            LOG.error("Error during creation of the conbined feed.", e);
             return e.getMessage();
         }
     }

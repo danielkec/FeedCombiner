@@ -6,15 +6,15 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Path;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.slf4j.LoggerFactory;
 
 public class Main {
-
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
+    
     private static final String URL = "http://localhost:8182/feedcombiner/";
 
     public static void main(String[] args) {
@@ -27,14 +27,14 @@ public class Main {
                                             .iterator().next()
                                             .getAnnotation(Path.class).value());
             
-            System.out.println("Grizzly roars on "+fullUrl);            
-            System.out.println("Hit any key to kill it!");  
+            LOG.info("Grizzly roars on {}",fullUrl);            
+            LOG.info("Hit any key to kill it!");  
             
             if(Desktop.isDesktopSupported()){
                 try {
                     Desktop.getDesktop().browse(fullUrl);
                 } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                   LOG.error("Error when opening default browser",ex);
                 }
             }
             
