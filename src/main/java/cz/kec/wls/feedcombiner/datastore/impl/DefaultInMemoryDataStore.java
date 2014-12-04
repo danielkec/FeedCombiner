@@ -23,22 +23,22 @@ import java.io.Serializable;
 public class DefaultInMemoryDataStore implements InMemoryDataStore{
 
     @Override
-    public <T extends Serializable> Serializable put(String key, T data) {
+    public synchronized <T extends Serializable> Serializable put(String key, T data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public <T extends Serializable> T get(String key, Class<T> type) {
+    public synchronized <T extends Serializable> T get(String key, Class<T> type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void save(OutputStream out) throws IOException {
+    public synchronized void save(OutputStream out) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void load(InputStream in) throws IOException {
+    public synchronized void load(InputStream in) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
