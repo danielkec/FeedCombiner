@@ -12,15 +12,4 @@
         new events from this newly created combined feed the application exposes the feed entries 
         as either a HTML page or an JSON object.
     </description>
-
-<!--    <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>examples.Hello</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>-->
-
 </web-app> 

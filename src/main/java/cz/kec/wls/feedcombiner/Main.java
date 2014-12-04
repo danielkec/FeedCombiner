@@ -1,6 +1,7 @@
 package cz.kec.wls.feedcombiner;
 
 import cz.kec.wls.feedcombiner.rs.ExposeResource;
+import cz.kec.wls.feedcombiner.rs.ManageResource;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -17,7 +18,7 @@ public class Main {
     private static final String URL = "http://localhost:8182/feedcombiner/";
 
     public static void main(String[] args) {
-            ResourceConfig resourceConfig = new ResourceConfig(ExposeResource.class);
+            ResourceConfig resourceConfig = new ResourceConfig(ManageResource.class,ExposeResource.class);
             HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(URL), resourceConfig);
 
             URI fullUrl = URI.create(URL+resourceConfig

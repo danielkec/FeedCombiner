@@ -1,14 +1,11 @@
 package cz.kec.wls.feedcombiner.rs;
 
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
-import com.rometools.rome.io.impl.FeedGenerators;
 import cz.kec.wls.feedcombiner.feeds.FeedCollector;
 import cz.kec.wls.feedcombiner.feeds.FeedMixer;
-import cz.kec.wls.feedcombiner.utils.XMLUtils;
 import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;

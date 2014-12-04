@@ -20,8 +20,22 @@ import java.io.Serializable;
  * 
  * @author Daniel Kec <daniel at kecovi.cz>
  */
-public class DefaultInMemoryDataStore implements InMemoryDataStore{
-
+public class InMemoryDataStoreSingleton implements InMemoryDataStore{
+    /**
+     * Initialization on Demand Holder.
+     * makes singleton thread safe
+     */
+    private static class LazyHolder {
+        private static final InMemoryDataStoreSingleton INSTANCE = new InMemoryDataStoreSingleton();
+    }
+       
+    private InMemoryDataStoreSingleton() {
+    }
+    
+    public static InMemoryDataStoreSingleton getInstance(){
+        return LazyHolder.INSTANCE;
+    }
+    
     @Override
     public synchronized <T extends Serializable> Serializable put(String key, T data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
