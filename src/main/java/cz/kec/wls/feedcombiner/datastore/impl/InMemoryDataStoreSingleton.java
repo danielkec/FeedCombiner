@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
+import org.nustaq.serialization.FSTObjectInput;
+import org.nustaq.serialization.FSTObjectOutput;
 
 /**
  * Stores application server-side state. 
@@ -19,8 +22,10 @@ import java.io.Serializable;
  * <li/>expected save:load operation ratio of 1:2
  * 
  * @author Daniel Kec <daniel at kecovi.cz>
+ * @since Dec 3, 2014
  */
 public class InMemoryDataStoreSingleton implements InMemoryDataStore{
+    private ConcurrentHashMap<String, Serializable> concurrentHashMap;
     /**
      * Initialization on Demand Holder.
      * makes singleton thread safe
@@ -30,6 +35,7 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
     }
        
     private InMemoryDataStoreSingleton() {
+        this.concurrentHashMap = new ConcurrentHashMap<String,Serializable>(128);
     }
     
     public static InMemoryDataStoreSingleton getInstance(){
@@ -37,23 +43,31 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
     }
     
     @Override
-    public synchronized <T extends Serializable> Serializable put(String key, T data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public <T extends Serializable> Serializable put(String key, T data) {
+        return (T)this.concurrentHashMap.put(key, data);
     }
 
     @Override
-    public synchronized <T extends Serializable> T get(String key, Class<T> type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public <T extends Serializable> T get(String key, Class<T> type) {
+        return (T)this.concurrentHashMap.get(key);
     }
 
     @Override
-    public synchronized void save(OutputStream out) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void save(OutputStream outputStream) throws IOException {
+        FSTObjectOutput out = new FSTObjectOutput(outputStream);
+        out.writeObject(this.concurrentHashMap);
+        out.close();
     }
 
     @Override
-    public synchronized void load(InputStream in) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void load(InputStream inputStream) throws IOException {
+        try {
+            FSTObjectInput in = new FSTObjectInput(inputStream);
+            this.concurrentHashMap = (ConcurrentHashMap<String, Serializable>) in.readObject();   
+            in.close();
+        } catch (ClassNotFoundException ex) {
+            throw new IOException("There is a problem with the inputstream structure.",ex);
+        }
     }
     
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @since Dec 4, 2014
  */
 public class CombinedFeed implements Serializable{
-    private String name;
+    private final String name;
     private String description;
     private List<URI> uris = new ArrayList<URI>();
 
