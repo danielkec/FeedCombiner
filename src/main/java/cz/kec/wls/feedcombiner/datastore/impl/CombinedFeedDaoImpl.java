@@ -11,50 +11,65 @@ import java.util.List;
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 4, 2014
  */
-public class CombinedFeedDaoImpl implements CombinedFeedDao{
-    
-    
+public class CombinedFeedDaoImpl implements CombinedFeedDao {
+
     private final InMemoryDataStore inMemoryDataStore;
 
     public CombinedFeedDaoImpl(InMemoryDataStore inMemoryDataStore) {
         this.inMemoryDataStore = inMemoryDataStore;
         //because there is no keyset in the InMemoryDataStore
-        InMemoryKeySet inMemoryKeySet = 
-                this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
-        if(inMemoryKeySet==null){
-            this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY,new InMemoryKeySet());
+        InMemoryKeySet inMemoryKeySet
+                = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        if (inMemoryKeySet == null) {
+            this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, new InMemoryKeySet());
         }
     }
-    
+
     @Override
     public List<CombinedFeed> getAllCombinedFeeds() {
-        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY,InMemoryKeySet.class);
+        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
         ArrayList<CombinedFeed> feedList = new ArrayList<CombinedFeed>();
         for (String key : keySet) {
-            feedList.add(this.inMemoryDataStore.get(key,CombinedFeed.class));
+            feedList.add(this.inMemoryDataStore.get(key, CombinedFeed.class));
         }
         return feedList;
     }
+
+    @Override
+    public boolean containsCombinedFeed(String title) {
+        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        return keySet.contains(title);
+    }
+
     @Override
     public synchronized void createCombinedFeed(CombinedFeed combinedFeed) {
         this.inMemoryDataStore.put(combinedFeed.getName(), combinedFeed);
         InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
         keySet.add(combinedFeed.getName());
         this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, keySet);
-        
     }
 
     @Override
-    public void updateCombinedFeed(CombinedFeed combinedFeed) {
-        this.createCombinedFeed(combinedFeed);
+    public synchronized boolean updateCombinedFeed(CombinedFeed combinedFeed) {
+        if (containsCombinedFeed(combinedFeed.getName())) {
+            this.createCombinedFeed(combinedFeed);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public synchronized void deleteCombinedFeed(CombinedFeed combinedFeed) {
-        this.inMemoryDataStore.put(combinedFeed.getName(), null);
+    public synchronized boolean deleteCombinedFeed(String title) {
         InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
-        keySet.remove(combinedFeed.getName());
+        // return false if there is no feed with suplemented title/id
+        if (!keySet.contains(title)) {
+            return false;
+        }
+        this.inMemoryDataStore.put(title, null);
+        keySet.remove(title);
         this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, keySet);
+        return true;
     }
 
 }

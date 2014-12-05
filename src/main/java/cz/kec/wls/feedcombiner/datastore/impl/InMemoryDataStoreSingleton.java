@@ -25,6 +25,9 @@ import org.nustaq.serialization.FSTObjectOutput;
  * @since Dec 3, 2014
  */
 public class InMemoryDataStoreSingleton implements InMemoryDataStore{
+    /**
+     * Thread safe map for storing in memory
+     */
     private ConcurrentHashMap<String, Serializable> concurrentHashMap;
     /**
      * Initialization on Demand Holder.
@@ -38,6 +41,10 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
         this.concurrentHashMap = new ConcurrentHashMap<String,Serializable>(128);
     }
     
+    /**
+     * Returns instance of thread safe singleton InMemoryDateStore implementation
+     * @return singleton instance of InMemoryDateStore implementation
+     */
     public static InMemoryDataStoreSingleton getInstance(){
         return LazyHolder.INSTANCE;
     }
