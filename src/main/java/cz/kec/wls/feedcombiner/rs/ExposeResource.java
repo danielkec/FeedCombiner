@@ -36,8 +36,8 @@ public class ExposeResource {
             List<SyndFeed> wireFeeds = feedCollector.collect();
             FeedMixer feedMixer = new FeedMixer(wireFeeds);
             feedMixer.mix(feed);
-            SyndFeedOutput output = new SyndFeedOutput();
-            String response = output.outputString(feed);
+            SyndFeedOutput output = new SyndFeedOutput();   
+            String response = output.outputString(feed,true);
             return response;
             
             //return "";

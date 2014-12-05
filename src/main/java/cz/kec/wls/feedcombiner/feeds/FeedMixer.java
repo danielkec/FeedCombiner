@@ -31,8 +31,8 @@ public class FeedMixer {
      */
     public void mix(SyndFeed f){   
         ArrayList<SyndEntry> entryList = new ArrayList<SyndEntry>();
-        for (SyndFeed wirefeed : feedList) {
-            entryList.addAll(wirefeed.getEntries());
+        for (SyndFeed feed : feedList) {
+            entryList.addAll(feed.getEntries());
         }
         sortByDate(entryList);//sorting part
         f.setEntries(entryList);

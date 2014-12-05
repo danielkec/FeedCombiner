@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package cz.kec.wls.feedcombiner.feeds;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import java.util.Comparator;
 
 /**
- *
+ * 
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since 3.12.2014
  */
