@@ -7,12 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Implementation of CombinedFeedDao.
+ * Because there is no keyset in the InMemoryDataStore, 
+ * is used InMemoryKeySet which is persisted same way as all combined feeds.
+ * 
+ * @see CombinedFeedDao
+ * @see InMemoryKeySet
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 4, 2014
  */
 public class CombinedFeedDaoImpl implements CombinedFeedDao {
-
+    /**  */
     private final InMemoryDataStore inMemoryDataStore;
 
     public CombinedFeedDaoImpl(InMemoryDataStore inMemoryDataStore) {
