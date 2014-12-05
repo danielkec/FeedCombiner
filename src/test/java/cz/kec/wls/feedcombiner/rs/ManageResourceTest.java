@@ -21,7 +21,7 @@ import org.junit.runners.MethodSorters;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ManageResourceTest {
-    
+
 private static final String URL         = "http://localhost:8183";
 private static final String RESOURCE    = "feedcombiner";
 private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
@@ -30,24 +30,24 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
 
     public ManageResourceTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         ResourceConfig resourceConfig = new ResourceConfig(ManageResource.class);
         httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(URL_RESOURCE), resourceConfig);
-        System.out.println("Grizzly roars on "+URL_RESOURCE);            
+        System.out.println("Grizzly roars on "+URL_RESOURCE);
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         System.out.println("Grizzly died!");
         httpServer.shutdown();
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -70,24 +70,24 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
               .get(String.class);
         System.out.println(response);
     }
-    
+
     /**
      * Test of getAllCombinedFeeds method, of class ManageResource.
      */
-    @Test
+    //@Test
     public void test2GetAllCombinedFeeds() {
         System.out.println("testGetAllCombinedFeeds");
               String response = ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
-                       
-   
+
+
         Assert.assertTrue(response.contains("\"name\":\"testGetAllCombinedFeeds\""));
         System.out.println(response);
-                
+
     }
 
 
-    
+
 }

@@ -16,6 +16,8 @@ public class SyndFeedAdapter extends SyndFeedImpl{
     public SyndFeedAdapter(CombinedFeed combinedFeed) {
         super();
         this.combinedFeed = combinedFeed;
+        super.setTitle(combinedFeed.getName());
+        super.setDescription(combinedFeed.getDescription());
     }
 
     @Override
@@ -30,10 +32,15 @@ public class SyndFeedAdapter extends SyndFeedImpl{
 
     @Override
     public List<SyndEntry> getEntries() {
-        
+        return combinedFeed.getEntries();
     }
-    
-    
-    
-    
+
+    @Override
+    public void setEntries(List<SyndEntry> entries) {
+        combinedFeed.setEntries(entries);
+    }
+
+
+
+
 }
