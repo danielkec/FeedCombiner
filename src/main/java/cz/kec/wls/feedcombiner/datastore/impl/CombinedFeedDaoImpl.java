@@ -7,19 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of CombinedFeedDao.
- * Because there is no keyset in the InMemoryDataStore, 
- * is used InMemoryKeySet which is persisted same way as all combined feeds.
- * 
+ * Implementation of CombinedFeedDao. Because there is no keyset in the
+ * InMemoryDataStore, is used InMemoryKeySet which is persisted same way as all
+ * combined feeds.
+ *
  * @see CombinedFeedDao
  * @see InMemoryKeySet
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 4, 2014
  */
 public class CombinedFeedDaoImpl implements CombinedFeedDao {
-    /**  */
+
+    /**
+     * InMemoryDataStore to be used by this dao
+     */
     private final InMemoryDataStore inMemoryDataStore;
 
+    /**
+     * Creates new CombinedFeedDao implementation. With its own keyset above
+     * InMemoryStore.
+     *
+     * @param inMemoryDataStore
+     */
     public CombinedFeedDaoImpl(InMemoryDataStore inMemoryDataStore) {
         this.inMemoryDataStore = inMemoryDataStore;
         //because there is no keyset in the InMemoryDataStore
@@ -42,6 +51,10 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
 
     @Override
     public boolean containsCombinedFeed(String title) {
+        //reserved title/id for keyset
+        if (InMemoryKeySet.KEYSET_KEY.equals(title)) {
+            return true;
+        }
         InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
         return keySet.contains(title);
     }
