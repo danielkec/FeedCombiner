@@ -42,37 +42,6 @@ public class FeedPrinterTest {
 //        fail("The test case is a prototype.");
 //    }
 
-    /**
-     * Test of printToATOM method, of class FeedPrinter.
-     */
-    @Test
-    public void testPrintToATOM() throws Exception {
-//        System.out.println("printToATOM");
-//        FeedPrinter instance = null;
-//        String expResult = "";
-//        String result = instance.printToATOM();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-        CombinedFeed combinedFeed = new CombinedFeed("test", "sssss");
-        SyndFeed feedAdapter = new SyndFeedAdapter(combinedFeed);
 
-        FeedCollector feedCollector = new FeedCollector(new URI[]{
-            URI.create("http://www.reddit.com/r/worldnews/.rss")
-//            URI.create("http://www.reddit.com/r/java/.rss"),
-//            URI.create("http://www.buzzfeed.com/index.xml"),
-//            URI.create("http://feeds.dzone.com/javalobby/frontpage"),
-//            URI.create("http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines")
-        });
-            List<SyndFeed> wireFeeds = feedCollector.collect();
-            FeedMixer feedMixer = new FeedMixer(wireFeeds);
-            feedMixer.mix(feedAdapter);
-
-        FeedPrinter feedPrinter = new FeedPrinter(combinedFeed);
-        System.out.println(feedPrinter.printToATOM());
-        System.out.println(feedPrinter.printToJSON());
-        System.out.println(feedPrinter.printToHTML());
-
-    }
 
 }

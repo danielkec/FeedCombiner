@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity representing feed which is mixing several others feeds entries.
@@ -13,11 +16,13 @@ import java.util.List;
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 4, 2014
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CombinedFeed implements Serializable {
 
     private final String name;
     private String description;
     private List<URI> uris = new ArrayList<URI>();
+    @XmlTransient//dont need entries in the overview
     private List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
     /**

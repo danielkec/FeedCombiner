@@ -22,9 +22,12 @@ public interface CombinedFeedDao {
     /**
      * Checks if CombinedFeed with same id/title is already persisted
      *
+     * @param title
      * @return true if contains feed with same title
      */
     public boolean containsCombinedFeed(String title);
+
+    public CombinedFeed getCombinedFeedByName(String name);
 
     /**
      * Creates new combined feed

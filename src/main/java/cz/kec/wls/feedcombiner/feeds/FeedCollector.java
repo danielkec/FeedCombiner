@@ -18,12 +18,12 @@ import javax.xml.ws.http.HTTPException;
  * @since 3.12.2014
  */
 public class FeedCollector {
-    private final URI[] uris;
+    private final List<URI> uris;
 
-    public FeedCollector(URI[] uris) {
-        this.uris = uris;        
+    public FeedCollector(List<URI> uris) {
+        this.uris = uris;
     }
-    
+
     public List<SyndFeed> collect(){
         ArrayList<SyndFeed> syndEntryList = new ArrayList<SyndFeed>();
         for (URI uri : uris) {
@@ -43,7 +43,7 @@ public class FeedCollector {
         }
         return syndEntryList;
     }
-    
-    
-    
+
+
+
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<overViewBean>
+    <title>Feed Combiner - overview</title>
+    <combinedFeedList>
+        <name>feed1</name>
+        <description>popis</description>
+        <uris>http://www.reddit.com/r/worldnews/.rss</uris>
+        <uris>http://www.reddit.com/r/java/.rss</uris>
+        <uris>http://www.buzzfeed.com/index.xml</uris>
+        <uris>http://feeds.dzone.com/javalobby/frontpage</uris>
+        <uris>http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines</uris>
+    </combinedFeedList>
+    <combinedFeedList>
+        <name>feed1</name>
+        <description>popis</description>
+        <uris>http://www.reddit.com/r/worldnews/.rss</uris>
+        <uris>http://www.reddit.com/r/java/.rss</uris>
+        <uris>http://www.buzzfeed.com/index.xml</uris>
+        <uris>http://feeds.dzone.com/javalobby/frontpage</uris>
+        <uris>http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines</uris>
+    </combinedFeedList>
+    <combinedFeedList>
+        <name>feed1</name>
+        <description>popis</description>
+        <uris>http://www.reddit.com/r/worldnews/.rss</uris>
+        <uris>http://www.reddit.com/r/java/.rss</uris>
+        <uris>http://www.buzzfeed.com/index.xml</uris>
+        <uris>http://feeds.dzone.com/javalobby/frontpage</uris>
+        <uris>http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines</uris>
+    </combinedFeedList>
+    <combinedFeedList>
+        <name>feed1</name>
+        <description>popis</description>
+        <uris>http://www.reddit.com/r/worldnews/.rss</uris>
+        <uris>http://www.reddit.com/r/java/.rss</uris>
+        <uris>http://www.buzzfeed.com/index.xml</uris>
+        <uris>http://feeds.dzone.com/javalobby/frontpage</uris>
+        <uris>http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines</uris>
+    </combinedFeedList>
+</overViewBean>

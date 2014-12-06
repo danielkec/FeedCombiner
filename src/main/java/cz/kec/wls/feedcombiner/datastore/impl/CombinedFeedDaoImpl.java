@@ -90,4 +90,9 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         return true;
     }
 
+    @Override
+    public CombinedFeed getCombinedFeedByName(String name) {
+        return this.inMemoryDataStore.get(name, CombinedFeed.class);
+    }
+
 }
