@@ -62,7 +62,7 @@ public class Main {
     private static void createMockFeeds() {
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
-              .queryParam("title","testGetAllCombinedFeedsNo1")
+              .queryParam("title","All in one")
               .queryParam("description", "created by unit test")
               .queryParam("urls",  "http://www.reddit.com/r/worldnews/.rss")
               .queryParam("urls",  "http://www.buzzfeed.com/index.xml")
@@ -72,7 +72,7 @@ public class Main {
               .get(String.class);
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
-              .queryParam("title","testGetAllCombinedFeedsNo2")
+              .queryParam("title","Reddit and Buzzfeed")
               .queryParam("description", "created by unit test")
               .queryParam("urls",  "http://www.reddit.com/r/worldnews/.rss")
               .queryParam("urls",  "http://www.buzzfeed.com/index.xml")
@@ -80,20 +80,22 @@ public class Main {
               .get(String.class);
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
-              .queryParam("title","testGetAllCombinedFeeds No 3")
+              .queryParam("title","Reddit only")
               .queryParam("description", "created by unit test")
               .queryParam("urls",  "http://www.reddit.com/r/worldnews/.rss")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
-              .queryParam("title","testGetAllCombinedFeedsNo4")
+              .queryParam("title","Empty feed")
               .queryParam("description", "created by unit test")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
-              .queryParam("title","testGetAllCombinedFeedsNo5")
+              .queryParam("title","Coding the Web")
+              .queryParam("description","Jersey news")
+              .queryParam("urls","http://marek.potociar.net/feed/")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
         ClientBuilder.newClient()

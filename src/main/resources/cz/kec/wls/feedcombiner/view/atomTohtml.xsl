@@ -18,7 +18,7 @@
     <xsl:template match="text()"></xsl:template>
 
     <xsl:template match="atom:entry">
-        <div id="container">
+        
         <h3>
             <a href="{atom:link/@href}">
                 <xsl:value-of select="atom:title"/>
@@ -27,24 +27,38 @@
         <p>
             <xsl:value-of select="atom:summary" disable-output-escaping="yes"/>
         </p>
-        </div>
+        
     </xsl:template>
 
     <xsl:template match="/atom:feed">
         <html>
             <head>
-                <style>
+                <style><![CDATA[
                     body {
-                        text-align: center;
-                        font-family:georgia, serif;
+                    text-align: center;
+                    font-family:georgia, verdana, serif;
+                    background-color: #E0E0E0 ;
                     }
 
                     #container {
-                        margin: 0 auto;
-                        width: 800px;
-                        text-align: left;
+                    margin: 0 auto;
+                    width: 800px;
+                    text-align: left;
+                    background-color: white;
+                    padding: 20px;
                     }
-                </style>
+                ]]></style>
+                <script>
+                    function getfixedUrlToJson(protocol){
+                        return document.URL.replace("/html/[^/]*",
+                        "/"+protocol+"/<xsl:value-of select='atom:title'/>");
+                    }
+                    function redirect(protocol){                        
+                        var fixedUrl = getfixedUrlToJson(protocol);
+                        window.alert(fixedUrl);
+                        window.open(fixedUrl,"_self");
+                    }    
+                </script>
                 <title>
                     <xsl:value-of select="atom:title"/>
                 </title>
@@ -52,11 +66,21 @@
         </html>
         <body>
             <h1>
-                <a href="{atom:link/@href}">
-                    <xsl:value-of select="atom:title"/>
-                </a>
+                <xsl:value-of select="atom:title"/>
             </h1>
-            <xsl:apply-templates/>
+            <h4>
+                <xsl:value-of select="atom:subtitle"/>
+            </h4>
+            <div class="margin: 0 auto;
+                        width: 800px;
+                        text-align: left;">
+                        <a onclick="redirect('json');" href="javascript:void(0);">
+                            <xsl:text>JSON</xsl:text>
+                        </a>
+            </div>
+            <div id="container">
+                <xsl:apply-templates/>
+            </div>
         </body>
     </xsl:template>
 
