@@ -26,6 +26,11 @@ public class MockUtils {
         combinedFeed.getUris().add(URI.create("http://marek.potociar.net/feed/"));
         CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
         combinedFeedDao.createCombinedFeed(combinedFeed);
+
+        CombinedFeed combinedFeed2 = new CombinedFeed("BuzzFeed and Zive.cz", "BuzzFeed mixed with Zive");
+        combinedFeed2.getUris().add(URI.create("http://www.zive.cz/rss/sc-47/"));
+        combinedFeed2.getUris().add(URI.create("http://www.buzzfeed.com/index.xml"));
+        combinedFeedDao.createCombinedFeed(combinedFeed2);
     }
 
     public static void mockSync() {

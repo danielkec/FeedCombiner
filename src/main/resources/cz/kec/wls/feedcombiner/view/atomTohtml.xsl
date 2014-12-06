@@ -18,16 +18,21 @@
     <xsl:template match="text()"></xsl:template>
 
     <xsl:template match="atom:entry">
-
         <h3>
             <a href="{atom:link/@href}">
                 <xsl:value-of select="atom:title"/>
             </a>
         </h3>
+        <div style="font-size: 9px;">
+            <b><xsl:text>Published: </xsl:text></b>
+            <xsl:value-of select="atom:published"/>
+            <xsl:text> </xsl:text>
+            <b><xsl:text>Updated: </xsl:text></b>
+            <xsl:value-of select="atom:updated"/>
+        </div>
         <p>
             <xsl:value-of select="atom:summary" disable-output-escaping="yes"/>
         </p>
-
     </xsl:template>
 
     <xsl:template match="/atom:feed">
@@ -50,11 +55,14 @@
                 ]]></style>
                 <script>
                     function getfixedUrl(protocol){
-                        return document.URL.replace("/html/","/"+protocol+"/");
+                    return document.URL.replace("/html/","/"+protocol+"/");
                     }
                     function redirect(protocol){
-                        var fixedUrl = getfixedUrl(protocol);
-                        window.open(fixedUrl,"_self");
+                    var fixedUrl = getfixedUrl(protocol);
+                    window.open(fixedUrl,"_self");
+                    }
+                    function redirectToOverView(){
+                    window.open(document.URL.replace(new RegExp("\\b/html/\\b.*","gi"),""),"_self");
                     }
                 </script>
                 <title>
@@ -69,18 +77,26 @@
             <h4>
                 <xsl:value-of select="atom:subtitle"/>
             </h4>
-            <div style="margin: 0 auto;
-                        width: 800px;
-                        font-size:11px;
-                        padding-right:30;
-                        text-align: left;">
-                        <a onclick="redirect('json');" href="javascript:void(0);">
-                            <xsl:text>JSON</xsl:text>
-                        </a>
-                        <xsl:text>,</xsl:text>
-                        <a onclick="redirect('atom');" href="javascript:void(0);">
-                            <xsl:text>ATOM</xsl:text>
-                        </a>
+            <div style="overflow: hidden;
+                        text-align: left;
+                        margin: 0 auto;
+                        width: 840px;">
+                <div style="float: right;
+                            width: 100px;">
+
+                    <a onclick="redirect('json');" href="javascript:void(0);">
+                        <xsl:text>JSON</xsl:text>
+                    </a>
+                    <xsl:text> </xsl:text>
+                    <a onclick="redirect('atom');" href="javascript:void(0);">
+                        <xsl:text>ATOM</xsl:text>
+                    </a>
+                </div>
+                <div style="overflow: hidden;">
+                    <a onclick="redirectToOverView();" href="javascript:void(0);">
+                        <xsl:text>Return</xsl:text>
+                    </a>
+                </div>
             </div>
             <div id="container">
                 <xsl:apply-templates/>

@@ -17,72 +17,25 @@
 
     <xsl:template match="text()"></xsl:template>
 
-    <xsl:template match="combinedFeedList">
-        <h2>
-            <NUMBER>
-                <xsl:number value="position()" format="1" />
-            </NUMBER>
-            <a href="aaa">
-                <xsl:value-of select="name"/>
-            </a>
-        </h2>
-        <p>
-            <xsl:value-of select="description"/>
-        </p>
-    </xsl:template>
-
     <xsl:template match="overViewBean">
         <html>
             <head>
                 <style>
-                    HEADLINES {
-                    font-family:georgia, serif;
-                    color:#381704;
-                    font-size:18px;
-                    letter-spacing:0.1em;
-                    line-height:200%;
-                    padding-top:11px;
+                    <![CDATA[
+                    body {
+                    text-align: center;
+                    font-family:georgia, verdana, serif;
+                    background-color: #E0E0E0 ;
                     }
-                    NUMBER {
-                    font-family:georgia, serif;
 
-                    font-size:19px;
-                    font-weight:bold;
-                    line-height:125%;
-                    text-align:center;
+                    #container {
+                    margin: 2 auto;
+                    width: 800px;
+                    text-align: left;
+                    background-color: white;
+                    padding: 20px;
                     }
-                    QUIPPED {
-                    font-family:georgia, serif;
-                    color:#786E69;
-                    font-size:10px;
-                    font-weight:bold;
-                    letter-spacing:.1em;
-                    text-transform:uppercase;
-                    padding-bottom:3px;
-
-                    font-family:georgia, serif;
-                    color:#786E69;
-                    font-size:10px;
-                    font-weight:bold;
-                    font-style:italic;
-                    letter-spacing:.1em;
-                    padding-bottom:35px;
-                    }
-                    PARAGRAPH {
-                    font-family:georgia,serif;
-                    color:#381704;
-                    font-size:12px;
-                    font-weight:normal;
-                    line-height:150%;
-                    padding:0px;
-                    }
-                    URIS {
-                    font-family:georgia,serif;
-
-                    font-size:9px;
-                    font-weight:normal;
-                    line-height:150%;
-                    padding:0px;
+                ]]>
                     }
                 </style>
                 <title>
@@ -92,37 +45,50 @@
         </html>
         <body>
             <h1>
-                <HEADLINES>
+                <headlines>
                     <xsl:value-of select="title"/>
-                </HEADLINES>
+                </headlines>
             </h1>
             <xsl:for-each select="combinedFeedList">
-                <NUMBER>
-                    <xsl:number value="position()" format="1" />
-                </NUMBER>
-                <xsl:text>   </xsl:text>
-                <a onclick='window.open(document.URL+"/html/{name}","_self")' href="javascript:void(0);">
-                    <NUMBER><xsl:value-of select="name" /></NUMBER>
-                </a>
-                <br/>
-                <a onclick='window.open(document.URL+"/json/{name}","_self")' href="javascript:void(0);">
-                       <xsl:text>JSON</xsl:text>
-                </a>
-                <xsl:text>, </xsl:text>
-                <a onclick='window.open(document.URL+"/atom/{name}","_self")' href="javascript:void(0);">
-                       <xsl:text>ATOM</xsl:text>
-                </a>
-                <p>
-                    <PARAGRAPH><xsl:value-of select="description"/></PARAGRAPH>
-                </p>
-                <QUIPPED>Original feeds:</QUIPPED><br />
-                <xsl:for-each select="uris">
-                    <a href="{.}">
-                    <URIS><xsl:value-of select="."/></URIS>
-                    </a>
-                    <br />
-                </xsl:for-each>
-                <br />
+                <div id="container">
+                    <div style="float: right;
+                    background-color: grey;
+                            width: 100px;">
+                        tady bude edit
+                    </div>
+                    <div style="overflow: hidden;">
+                        <xsl:number value="position()" format="1" />
+                        <xsl:text> </xsl:text>
+                        <b><xsl:value-of select="name"/></b>
+                        <xsl:text> </xsl:text>
+                        <a onclick='window.open(document.URL+"/html/{name}","_self")' href="javascript:void(0);">
+                            <xsl:text>HTML</xsl:text>
+                        </a>
+                        <xsl:text>, </xsl:text>
+                        <a onclick='window.open(document.URL+"/json/{name}","_self")' href="javascript:void(0);">
+                            <xsl:text>JSON</xsl:text>
+                        </a>
+                        <xsl:text>, </xsl:text>
+                        <a onclick='window.open(document.URL+"/atom/{name}","_self")' href="javascript:void(0);">
+                            <xsl:text>ATOM</xsl:text>
+                        </a>
+                        <p style="font-size: 13px;">
+                            <xsl:value-of select="description"/>
+                        </p>
+                        <div style="font-size: 10px;">
+                            Original feeds:
+                            <br />
+                            <div>
+                                <xsl:for-each select="uris">
+                                    <a href="{.}">
+                                        <xsl:value-of select="."/>
+                                    </a>
+                                    <br/>
+                                </xsl:for-each>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </xsl:for-each>
         </body>
     </xsl:template>
