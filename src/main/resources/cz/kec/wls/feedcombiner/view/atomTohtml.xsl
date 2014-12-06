@@ -18,7 +18,7 @@
     <xsl:template match="text()"></xsl:template>
 
     <xsl:template match="atom:entry">
-        
+
         <h3>
             <a href="{atom:link/@href}">
                 <xsl:value-of select="atom:title"/>
@@ -27,7 +27,7 @@
         <p>
             <xsl:value-of select="atom:summary" disable-output-escaping="yes"/>
         </p>
-        
+
     </xsl:template>
 
     <xsl:template match="/atom:feed">
@@ -49,15 +49,13 @@
                     }
                 ]]></style>
                 <script>
-                    function getfixedUrlToJson(protocol){
-                        return document.URL.replace("/html/[^/]*",
-                        "/"+protocol+"/<xsl:value-of select='atom:title'/>");
+                    function getfixedUrl(protocol){
+                        return document.URL.replace("/html/","/"+protocol+"/");
                     }
-                    function redirect(protocol){                        
-                        var fixedUrl = getfixedUrlToJson(protocol);
-                        window.alert(fixedUrl);
+                    function redirect(protocol){
+                        var fixedUrl = getfixedUrl(protocol);
                         window.open(fixedUrl,"_self");
-                    }    
+                    }
                 </script>
                 <title>
                     <xsl:value-of select="atom:title"/>
@@ -71,11 +69,17 @@
             <h4>
                 <xsl:value-of select="atom:subtitle"/>
             </h4>
-            <div class="margin: 0 auto;
+            <div style="margin: 0 auto;
                         width: 800px;
+                        font-size:11px;
+                        padding-right:30;
                         text-align: left;">
                         <a onclick="redirect('json');" href="javascript:void(0);">
                             <xsl:text>JSON</xsl:text>
+                        </a>
+                        <xsl:text>,</xsl:text>
+                        <a onclick="redirect('atom');" href="javascript:void(0);">
+                            <xsl:text>ATOM</xsl:text>
                         </a>
             </div>
             <div id="container">

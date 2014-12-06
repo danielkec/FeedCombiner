@@ -35,7 +35,8 @@ public class FeedPrinter {
         return XMLUtils.transform(printToATOM(), FeedPrinter.class.getResourceAsStream("atomTohtml.xsl"));
     }
     public String printToJSON(){
-        return JSONUtils.toJSON(this.feed);
+        return JSONUtils.xmlToJSON(printToATOM());
+        //return JSONUtils.toJSON(this.feed);
     }
     public String printToATOM(){
         return printToString(FEED_TYPE_ATOM10);

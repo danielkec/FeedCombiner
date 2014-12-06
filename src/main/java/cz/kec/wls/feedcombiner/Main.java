@@ -1,17 +1,11 @@
 package cz.kec.wls.feedcombiner;
 
-import com.rometools.rome.feed.synd.SyndFeed;
-import cz.kec.wls.feedcombiner.datastore.CombinedFeedDao;
-import cz.kec.wls.feedcombiner.datastore.DaoFactory;
-import cz.kec.wls.feedcombiner.feeds.FeedCollector;
-import cz.kec.wls.feedcombiner.feeds.FeedMixer;
-import cz.kec.wls.feedcombiner.model.CombinedFeed;
 import cz.kec.wls.feedcombiner.rs.ExposeResource;
 import cz.kec.wls.feedcombiner.rs.ManageResource;
+import cz.kec.wls.feedcombiner.utils.MockUtils;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 import java.util.Scanner;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -45,7 +39,7 @@ public class Main {
 
 
             createMockFeeds();
-            mockSync();
+            MockUtils.mockSync();
 
             if(Desktop.isDesktopSupported()){
                 try {
@@ -59,7 +53,7 @@ public class Main {
             httpServer.shutdown();
     }
 
-    private static void createMockFeeds() {
+    public static void createMockFeeds() {
         ClientBuilder.newClient()
               .target(URL).path(RESOURCE).path("manage").path("create")
               .queryParam("title","All in one")
@@ -113,19 +107,5 @@ public class Main {
               .queryParam("urls",  "http://www.buzzfeed.com/index.xml")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
-    }
-
-    private static void mockSync() {
-        CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
-        List<CombinedFeed> allCombinedFeeds = combinedFeedDao.getAllCombinedFeeds();
-        for (CombinedFeed combinedFeed : allCombinedFeeds) {
-            FeedCollector feedCollector = new FeedCollector(combinedFeed.getUris());
-            List<SyndFeed> syndFeeds = feedCollector.collect();
-            FeedMixer feedMixer = new FeedMixer(syndFeeds);
-            feedMixer.mix(combinedFeed);
-        }
-
-
-
     }
 }
