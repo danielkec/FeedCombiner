@@ -20,6 +20,8 @@
     <xsl:template match="overViewBean">
         <html>
             <head>
+                <script type='text/javascript' src='../js/lib/knockout-3.2.0.js'></script>
+                <script type='text/javascript' src='../js/CombinedFeedCRUDModel.js' defer="defer"></script>
                 <style>
                     <![CDATA[
                     body {
@@ -54,12 +56,20 @@
                     <div style="float: right;
                     background-color: grey;
                             width: 100px;">
-                        tady bude edit
+                        <div style="font-size:9px;">You've clicked <span data-bind='text: numberOfClicks'> </span> times</div>
+                        <p>
+                            <button data-bind='click: deleteFeed'>Delete</button>
+                        </p>
+                        <p>
+                            <button data-bind='click: updateFeed'>Update</button>
+                        </p>
                     </div>
                     <div style="overflow: hidden;">
                         <xsl:number value="position()" format="1" />
                         <xsl:text> </xsl:text>
-                        <b><xsl:value-of select="name"/></b>
+                        <b>
+                            <xsl:value-of select="name"/>
+                        </b>
                         <xsl:text> </xsl:text>
                         <a onclick='window.open(document.URL+"/html/{name}","_self")' href="javascript:void(0);">
                             <xsl:text>HTML</xsl:text>

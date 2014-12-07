@@ -6,10 +6,13 @@
 
     <display-name>Feed Combiner</display-name>
     <description>
-        Feed Combiner is an application / service that allows you to create a combined feed. 
-        This feed combines (aggregates) entries from all (original) individual feeds that were 
-        used to create the combined feed. Besides the fact that one can subscribe to recieve 
-        new events from this newly created combined feed the application exposes the feed entries 
+        Feed Combiner is an application / service that allows you to create a combined feed.
+        This feed combines (aggregates) entries from all (original) individual feeds that were
+        used to create the combined feed. Besides the fact that one can subscribe to recieve
+        new events from this newly created combined feed the application exposes the feed entries
         as either a HTML page or an JSON object.
     </description>
-</web-app> 
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+</web-app>
