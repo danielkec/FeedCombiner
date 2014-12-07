@@ -3,6 +3,7 @@ package cz.kec.wls.feedcombiner.model;
 import com.rometools.rome.feed.synd.SyndEntry;
 import java.io.Serializable;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class CombinedFeed implements Serializable {
 
     private final String name;
+    private final String encodedName;
     private String description;
     private List<URI> uris = new ArrayList<URI>();
     @XmlTransient//dont need entries in the overview
@@ -34,6 +36,7 @@ public class CombinedFeed implements Serializable {
      */
     public CombinedFeed(String name, String description, List<URI> uris) {
         this.name = name;
+        this.encodedName = URLEncoder.encode(name);
         this.description = description;
         this.uris = uris;
     }
@@ -46,6 +49,7 @@ public class CombinedFeed implements Serializable {
      */
     public CombinedFeed(String name, String description) {
         this.name = name;
+        this.encodedName = URLEncoder.encode(name);
         this.description = description;
     }
 

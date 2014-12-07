@@ -1,0 +1,24 @@
+/*
+    Created on : 7.12.2014, 14:17:15
+    Author     : Daniel Kec <daniel at kecovi.cz>
+*/
+
+body {
+    text-align: center;
+    font-family:georgia, verdana, serif;
+    background-color: #E0E0E0 ;
+}
+
+.container {
+    margin: 2 auto;
+    width: 800px;
+    text-align: left;
+    background-color: white;
+    padding: 20px;
+}
+
+.small-btn {
+    width: 30px;
+    height: 15px;
+    font-size: 8px;
+}

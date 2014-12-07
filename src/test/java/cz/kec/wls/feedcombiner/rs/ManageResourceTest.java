@@ -41,7 +41,7 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
     @AfterClass
     public static void tearDownClass() {
         System.out.println("Grizzly died!");
-        httpServer.shutdown();
+        httpServer.shutdownNow();
     }
 
     @Before

@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class OverViewBean extends Marshallable {
 
     private String title;
+
     private List<CombinedFeed> combinedFeedList = new ArrayList<CombinedFeed>();
 
     public OverViewBean() {
@@ -33,12 +34,6 @@ public class OverViewBean extends Marshallable {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-//    @XmlElementWrapper(name = "combinedfeeds")
-//    @XmlElement(name = "combinefeed")
     public List<CombinedFeed> getCombinedFeedList() {
         return combinedFeedList;
     }

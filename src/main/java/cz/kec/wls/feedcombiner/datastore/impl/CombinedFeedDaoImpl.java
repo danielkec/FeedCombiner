@@ -32,16 +32,12 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
     public CombinedFeedDaoImpl(InMemoryDataStore inMemoryDataStore) {
         this.inMemoryDataStore = inMemoryDataStore;
         //because there is no keyset in the InMemoryDataStore
-        InMemoryKeySet inMemoryKeySet
-                = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
-        if (inMemoryKeySet == null) {
-            this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, new InMemoryKeySet());
-        }
+        getKeySet();
     }
 
     @Override
     public List<CombinedFeed> getAllCombinedFeeds() {
-        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        InMemoryKeySet keySet = getKeySet();
         ArrayList<CombinedFeed> feedList = new ArrayList<CombinedFeed>();
         for (String key : keySet) {
             feedList.add(this.inMemoryDataStore.get(key, CombinedFeed.class));
@@ -55,16 +51,15 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         if (InMemoryKeySet.KEYSET_KEY.equals(title)) {
             return true;
         }
-        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        InMemoryKeySet keySet = getKeySet();
         return keySet.contains(title);
     }
 
     @Override
     public synchronized void createCombinedFeed(CombinedFeed combinedFeed) {
         this.inMemoryDataStore.put(combinedFeed.getName(), combinedFeed);
-        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        InMemoryKeySet keySet = getKeySet();
         keySet.add(combinedFeed.getName());
-        this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, keySet);
     }
 
     @Override
@@ -79,14 +74,13 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
 
     @Override
     public synchronized boolean deleteCombinedFeed(String title) {
-        InMemoryKeySet keySet = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        InMemoryKeySet keySet = getKeySet();
         // return false if there is no feed with suplemented title/id
         if (!keySet.contains(title)) {
             return false;
         }
         this.inMemoryDataStore.put(title, null);
         keySet.remove(title);
-        this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, keySet);
         return true;
     }
 
@@ -95,4 +89,13 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         return this.inMemoryDataStore.get(name, CombinedFeed.class);
     }
 
+
+    private InMemoryKeySet getKeySet(){
+        InMemoryKeySet inMemoryKeySet
+                = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+        if (inMemoryKeySet == null) {
+            this.inMemoryDataStore.put(InMemoryKeySet.KEYSET_KEY, new InMemoryKeySet());
+        }
+        return this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
+    }
 }

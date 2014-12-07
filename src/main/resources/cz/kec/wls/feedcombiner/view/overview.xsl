@@ -20,26 +20,10 @@
     <xsl:template match="overViewBean">
         <html>
             <head>
+                <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+                <script type='text/javascript' src='../js/lib/jquery-2.1.1.min.js'></script>
                 <script type='text/javascript' src='../js/lib/knockout-3.2.0.js'></script>
                 <script type='text/javascript' src='../js/CombinedFeedCRUDModel.js' defer="defer"></script>
-                <style>
-                    <![CDATA[
-                    body {
-                    text-align: center;
-                    font-family:georgia, verdana, serif;
-                    background-color: #E0E0E0 ;
-                    }
-
-                    #container {
-                    margin: 2 auto;
-                    width: 800px;
-                    text-align: left;
-                    background-color: white;
-                    padding: 20px;
-                    }
-                ]]>
-                    }
-                </style>
                 <title>
                     <xsl:value-of select="title"/>
                 </title>
@@ -49,25 +33,27 @@
             <h1>
                 <headlines>
                     <xsl:value-of select="title"/>
+                    <p>
+                        <button data-bind='click: createFeed'>Create cobined feed</button>
+                    </p>
                 </headlines>
             </h1>
             <xsl:for-each select="combinedFeedList">
-                <div id="container">
+                <div class="container" id="container{position()}">
                     <div style="float: right;
-                    background-color: grey;
                             width: 100px;">
-                        <div style="font-size:9px;">You've clicked <span data-bind='text: numberOfClicks'> </span> times</div>
+                        <!--<div style="font-size:9px;">You've clicked <span data-bind='text: numberOfClicks'> </span> times</div>-->
                         <p>
-                            <button data-bind='click: deleteFeed'>Delete</button>
+                            <button data-bind='click: deleteFeed.bind($data,"{name}")'>Delete</button>
                         </p>
                         <p>
-                            <button data-bind='click: updateFeed'>Update</button>
+                            <button data-bind='click: updateFeed.bind($data,"container{position()}")'>Update</button>
                         </p>
                     </div>
                     <div style="overflow: hidden;">
                         <xsl:number value="position()" format="1" />
                         <xsl:text> </xsl:text>
-                        <b>
+                        <b id="name">
                             <xsl:value-of select="name"/>
                         </b>
                         <xsl:text> </xsl:text>
@@ -82,18 +68,21 @@
                         <a onclick='window.open(document.URL+"/atom/{name}","_self")' href="javascript:void(0);">
                             <xsl:text>ATOM</xsl:text>
                         </a>
-                        <p style="font-size: 13px;">
-                            <xsl:value-of select="description"/>
+                        <p>
+                            <input type="text" id="description" style="font-size: 13px;" value="{description}"/>
                         </p>
                         <div style="font-size: 10px;">
-                            Original feeds:
+                            Original feeds: <button class="small-btn" data-bind='click: addUrl.bind($data,"{name}","{position()}")'>Add</button>
                             <br />
-                            <div>
+                            <div id="urls{position()}">
                                 <xsl:for-each select="uris">
-                                    <a href="{.}">
+                                    <div id="url.{count(../preceding-sibling::combinedFeedList) + 1}{position()}">
+                                    <button class="small-btn" data-bind='click: deleteUrl.bind($data,"{../name}",{count(../preceding-sibling::combinedFeedList) + 1}{position()})'>x</button>
+                                    <xsl:text> </xsl:text>
+                                    <a class="url" href="{.}">
                                         <xsl:value-of select="."/>
                                     </a>
-                                    <br/>
+                                    </div>
                                 </xsl:for-each>
                             </div>
                         </div>
