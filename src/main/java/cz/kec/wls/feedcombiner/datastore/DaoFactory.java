@@ -2,6 +2,7 @@ package cz.kec.wls.feedcombiner.datastore;
 
 import cz.kec.wls.feedcombiner.datastore.impl.CombinedFeedDaoImpl;
 import cz.kec.wls.feedcombiner.datastore.impl.InMemoryDataStoreSingleton;
+import cz.kec.wls.feedcombiner.datastore.impl.InMemoryPersisterImpl;
 
 /**
  * Factory for all DAO objects used in the feedcombiner project
@@ -20,5 +21,9 @@ public final class DaoFactory {
     public static CombinedFeedDao getCombinedFeedDao(){
         //actual implementation of persistent CombinedFeeds
         return new CombinedFeedDaoImpl(InMemoryDataStoreSingleton.getInstance());
+    }
+    
+    public static InMemoryPersister getInMemoryPersister(){
+        return new InMemoryPersisterImpl(InMemoryDataStoreSingleton.getInstance());
     }
 }
