@@ -10,12 +10,7 @@
                         <ejb-name>RefreshFeedsTimerBean</ejb-name>
                         <ejb-class>cz.kec.wls.feedcombiner.beans.RefreshFeedsTimerBean</ejb-class>
 <!--                        <session-type>Stateless</session-type>-->
-                        <init-on-startup>true</init-on-startup>
-                        <env-entry>
-                                <env-entry-name>FILTER</env-entry-name>
-                                <env-entry-type>java.lang.Long</env-entry-type>
-                                <env-entry-value>11011</env-entry-value>
-                        </env-entry>
+<!--                        <init-on-startup>true</init-on-startup>-->
                 </session>
         </enterprise-beans>
 </ejb-jar>
