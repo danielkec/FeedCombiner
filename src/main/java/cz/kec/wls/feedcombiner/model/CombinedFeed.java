@@ -26,7 +26,7 @@ public class CombinedFeed implements Serializable {
     private List<URI> uris = new ArrayList<URI>();
     @XmlTransient//dont need entries in the overview
     private List<SyndEntry> entries = new ArrayList<SyndEntry>();
-
+    
     /**
      * Create new combined feed.
      *

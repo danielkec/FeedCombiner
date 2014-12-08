@@ -38,7 +38,6 @@ public class ManageResource {
             @QueryParam("description")  String description,
             @QueryParam("urls")         List<String> urls){
         LOG.info("entering createCombinedFeed title: {} desc: {} urls: {}",title,description,urls);
-        LOG.info(">>>>"+JSONUtils.toJSON(urls)+"<<<<");
         try {
             CombinedFeed combinedFeed = new CombinedFeed(title, description);
             for (String url : urls) {

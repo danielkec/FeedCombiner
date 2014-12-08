@@ -19,9 +19,6 @@ var CombinedFeedCRUDModel = function () {
             cloned.children().first().attr("data-bind", dataBindVal[0] + "," + dataBindVal[1] + "," + idNum + ")");
             cloned.attr("id", "url." + idNum);
         }else{
-//           var urlsDiv = $('<div></div>');
-//           urlsDiv.appendTo(parentDiv);
-//           urlsDiv.attr("id","urls"+indx);
            var urlDiv = $('<div></div>');
            urlDiv.appendTo(parentDiv);
            urlDiv.attr("id","url."+indx+"1");//its first one

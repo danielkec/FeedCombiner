@@ -23,6 +23,7 @@ private final Logger LOG = LoggerFactory.getLogger(RefreshFeedsTimerBean.class);
 
 static{
     MockUtils.createMockFeeds();
+    MockUtils.mockSync();
 }
 
     @Resource
