@@ -44,14 +44,6 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
         httpServer.shutdownNow();
     }
 
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of createCombinedFeed method, of class ManageResource.
      */

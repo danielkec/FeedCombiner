@@ -1,13 +1,16 @@
 package cz.kec.wls.feedcombiner.datastore.impl;
 
 import cz.kec.wls.feedcombiner.datastore.InMemoryDataStore;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
-import org.nustaq.serialization.FSTObjectInput;
-import org.nustaq.serialization.FSTObjectOutput;
 
 /**
  * Stores application server-side state.
@@ -101,7 +104,7 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
             throw new NullPointerException("Type is null.");
         }
         Object object = this.concurrentHashMap.get(key);
-        if(type.isInstance(object)){
+        if(type.isInstance(object) || object == null){
             return (T)object;
         }
         throw new ClassCastException("Stored value is "+object.getClass().getName()+" not "+type.getName());
@@ -120,13 +123,17 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
      */
     @Override
     public void save(OutputStream out) throws IOException {
-        try{
-            FSTObjectOutput fstOut = new FSTObjectOutput(out);
-            fstOut.writeObject(this.concurrentHashMap);
-            fstOut.close();
-        }catch(Exception e){
-            throw new IOException(e);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutput objOut = null;
+        try {
+            objOut = new ObjectOutputStream(baos);
+            objOut.writeObject(this.concurrentHashMap);
+        } finally {
+            if (objOut != null) {
+                objOut.close();
+            }
         }
+        out.write(baos.toByteArray());
     }
 
     /**
@@ -143,9 +150,9 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
     @Override
     public void load(InputStream in) throws IOException {
         try {
-            FSTObjectInput fstIn = new FSTObjectInput(in);
+            ObjectInput fstIn = new ObjectInputStream(in);
             this.concurrentHashMap = (ConcurrentHashMap<String, Serializable>) fstIn.readObject();
-            fstIn.close();
+            //fstIn.close();
         } catch (ClassNotFoundException ex) {
             throw new IOException("There is a problem with the inputstream structure.",ex);
         }

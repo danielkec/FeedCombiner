@@ -61,4 +61,12 @@ public interface CombinedFeedDao {
      * @return true on succesfull removal
      */
     public boolean deleteCombinedFeed(String title);
+
+    /**
+     * Removes all persisted combine feeds. Or return false if there is nothing to
+     * remove.
+     *
+     * @return true on succesfull removal
+     */
+    public boolean deleteAllCombinedFeeds();
 }

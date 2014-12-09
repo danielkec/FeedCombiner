@@ -141,4 +141,21 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         }
         return this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
     }
+
+    /**
+     * Removes all persisted combine feeds. Or return false if there is nothing to
+     * remove.
+     *
+     * @return true on succesfull removal
+     */
+    @Override
+    public synchronized boolean deleteAllCombinedFeeds() {
+        InMemoryKeySet inMemoryKeySet = this.getKeySet();
+        boolean deletedSomething = false;
+        for (String key : inMemoryKeySet) {
+            this.deleteCombinedFeed(key);
+            deletedSomething = true;
+        }
+        return deletedSomething;
+    }
 }
