@@ -4,7 +4,8 @@
     Created on : 5. prosinec 2014, 22:30
     Author     : Daniel Kec
     Description:
-        Purpose of transformation follows.
+        Creates html which is served as combined feed overview.
+        Used as UI for all the CRUD ops.
 -->
 
 <xsl:stylesheet
@@ -23,7 +24,8 @@
                 <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
                 <script type='text/javascript' src='../js/lib/jquery-2.1.1.min.js'></script>
                 <script type='text/javascript' src='../js/lib/knockout-3.2.0.js'></script>
-                <script type='text/javascript' src='../js/CombinedFeedCRUDModel.js' defer="defer"></script>
+                <script type='text/javascript' src='../js/Main.js' defer="defer"></script>
+                <script type='text/javascript' src='../js/KOModel.js' defer="defer"></script>
                 <title>
                     <xsl:value-of select="title"/>
                 </title>
@@ -33,7 +35,9 @@
             <h1>
                 <headlines>
                     <xsl:value-of select="title"/>
+                    <div class="countdown-text"><xsl:text>Remaining time to next feed refresh:</xsl:text></div><div id="countdown">?</div>
                     <p>
+                        <button data-bind='click: changeTimerInterval'>Change refresh interval</button>
                         <button data-bind='click: createFeed'>Create cobined feed</button>
                     </p>
                 </headlines>
@@ -42,7 +46,6 @@
                 <div class="container" id="container{position()}">
                     <div style="float: right;
                             width: 100px;">
-                        <!--<div style="font-size:9px;">You've clicked <span data-bind='text: numberOfClicks'> </span> times</div>-->
                         <p>
                             <button data-bind='click: deleteFeed.bind($data,"{name}")'>Delete</button>
                         </p>

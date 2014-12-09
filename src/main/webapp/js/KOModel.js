@@ -1,7 +1,4 @@
-
-
-var CombinedFeedCRUDModel = function () {
-    this.numberOfClicks = ko.observable(0);
+var KOModel = function () {
 
     this.addUrl = function (name,indx) {
         console.log("Adding url " + "urls"+indx);
@@ -31,8 +28,9 @@ var CombinedFeedCRUDModel = function () {
 
         }
 
+        //rebind knockout model after changing view
         ko.cleanNode(document);
-        ko.applyBindings(new CombinedFeedCRUDModel());
+        ko.applyBindings(new KOModel());
     };
 
     this.createFeed = function () {
@@ -58,6 +56,10 @@ var CombinedFeedCRUDModel = function () {
         });
     };
 
+    /**
+     * Saves changes of current combined feed over RS manage/update
+     * @param {type} kontext id of div representing combined feed
+     */
     this.updateFeed = function (kontext) {
         console.log("Updating feed " + kontext);
 
@@ -91,10 +93,33 @@ var CombinedFeedCRUDModel = function () {
         console.log("Deleting url " + "#url\\." + posId);
         $("#url\\." + posId).remove();
     };
-
-    this.hasClickedTooManyTimes = ko.computed(function () {
-        return this.numberOfClicks() >= 3;
-    }, this);
+    
+    /**
+     * Invoked by change interval button.
+     * Asks for numer between 3-MAX_INT and than call RS if timer - setinterval.
+     * @returns {undefined}
+     */
+    this.changeTimerInterval = function () {
+        console.log("Changing timer interval");
+        var interval = window.prompt("Enter integer value on new ", "10");
+        if(!isNumber(interval)){
+            window.alert(interval+"is not a number!");
+            return;
+        }
+        if(interval<3){
+            window.alert("Interval has to be higher than 3 seconds!");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "timer/setinterval",
+            traditional: "true",
+            data: {"interval": interval}
+        }).then(function (data) {
+            location.reload();
+        });
+    };
 };
+//initial binding of the knockout view
+ko.applyBindings(new KOModel());
 
-ko.applyBindings(new CombinedFeedCRUDModel());

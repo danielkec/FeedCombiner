@@ -42,7 +42,7 @@ public class ExposeResource {
     @Path("/html/{feedName}")
     @Produces("text/html")
     public String getCombinedHTMLByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedHTMLByName with name ()"+feedName);
+        LOG.info("entering getCombinedHTMLByName with name {}",feedName);
         try{
         return prepCombinedFeedPrinterByName(feedName).printToHTML();
          } catch (Exception ex) {
@@ -57,7 +57,7 @@ public class ExposeResource {
     @Path("/json/{feedName}")
     @Produces("application/json")
     public String getCombinedJSONByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedJSONByName with name ()"+feedName);
+        LOG.info("entering getCombinedJSONByName with name {}",feedName);
         try{
         return prepCombinedFeedPrinterByName(feedName).printToJSON();
          } catch (Exception ex) {
@@ -72,7 +72,7 @@ public class ExposeResource {
     @Path("/atom/{feedName}")
     @Produces("application/xml")
     public String getCombinedATOMByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedATOMByName with name ()"+feedName);
+        LOG.info("entering getCombinedATOMByName with name {}",feedName);
         try{
         return prepCombinedFeedPrinterByName(feedName).printToATOM();
          } catch (Exception ex) {

@@ -22,3 +22,16 @@ body {
     height: 15px;
     font-size: 8px;
 }
+
+.countdown-text{
+    font-size: 12px;
+    font-style: normal;
+}
+
+#countdown {
+    font-size: 12px;
+}
+
+.entry-datetime {
+    font-size: 10px;
+}

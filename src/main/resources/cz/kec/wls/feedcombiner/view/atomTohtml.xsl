@@ -4,7 +4,7 @@
     Created on : 5. prosinec 2014, 22:30
     Author     : Daniel Kec
     Description:
-        Purpose of transformation follows.
+        Creates html which is served as combined feed HTML form.
 -->
 
 <xsl:stylesheet
@@ -23,11 +23,15 @@
                 <xsl:value-of select="atom:title"/>
             </a>
         </h3>
-        <div style="font-size: 9px;">
-            <b><xsl:text>Published: </xsl:text></b>
+        <div class="entry-datetime">
+            <b>
+                <xsl:text>Published: </xsl:text>
+            </b>
             <xsl:value-of select="atom:published"/>
             <xsl:text> </xsl:text>
-            <b><xsl:text>Updated: </xsl:text></b>
+            <b>
+                <xsl:text>Updated: </xsl:text>
+            </b>
             <xsl:value-of select="atom:updated"/>
         </div>
         <p>
@@ -38,33 +42,8 @@
     <xsl:template match="/atom:feed">
         <html>
             <head>
-                <style><![CDATA[
-                    body {
-                    text-align: center;
-                    font-family:georgia, verdana, serif;
-                    background-color: #E0E0E0 ;
-                    }
-
-                    #container {
-                    margin: 0 auto;
-                    width: 800px;
-                    text-align: left;
-                    background-color: white;
-                    padding: 20px;
-                    }
-                ]]></style>
-                <script>
-                    function getfixedUrl(protocol){
-                    return document.URL.replace("/html/","/"+protocol+"/");
-                    }
-                    function redirect(protocol){
-                    var fixedUrl = getfixedUrl(protocol);
-                    window.open(fixedUrl,"_self");
-                    }
-                    function redirectToOverView(){
-                    window.open(document.URL.replace(new RegExp("\\b/html/\\b.*","gi"),""),"_self");
-                    }
-                </script>
+                <link rel="stylesheet" type="text/css" href="../../../css/main.css" media="screen" />
+                <script type='text/javascript' src='../../../js/Main.js' defer="defer"></script>
                 <title>
                     <xsl:value-of select="atom:title"/>
                 </title>
@@ -98,10 +77,9 @@
                     </a>
                 </div>
             </div>
-            <div id="container">
+            <div class="container">
                 <xsl:apply-templates/>
             </div>
         </body>
     </xsl:template>
-
 </xsl:stylesheet>
