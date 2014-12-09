@@ -8,23 +8,38 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.ws.http.HTTPException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * Fetches feeds from suplemented uris.
  *
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since 3.12.2014
  */
 public class FeedCollector {
+
+    private final Logger LOG = LoggerFactory.getLogger(FeedCollector.class);
+
     private final List<URI> uris;
 
+    /**
+     * Creates new collector prepered to collect feeds from suplemented uris.
+     *
+     * @param uris to fetche feeds from
+     */
     public FeedCollector(List<URI> uris) {
         this.uris = uris;
     }
 
-    public List<SyndFeed> collect(){
+    /**
+     * Fetches all feeds it can from the uris it has been constructed with.
+     *
+     * @return List of SyndFeeda
+     * @see SyndFeed
+     */
+    public List<SyndFeed> collect() {
         ArrayList<SyndFeed> syndEntryList = new ArrayList<SyndFeed>();
         for (URI uri : uris) {
             try {
@@ -32,18 +47,16 @@ public class FeedCollector {
                 SyndFeed inFeed = input.build(new XmlReader(uri.toURL()));
                 syndEntryList.add(inFeed);
             } catch (HTTPException e) {
-                Logger.getLogger(FeedCollector.class.getName()).log(Level.SEVERE, "Suplemented URI " + uri + " is not reachable.", e);
+                LOG.warn("Suplemented URI " + uri + " is not reachable.", e);
             } catch (IOException e) {
-                Logger.getLogger(FeedCollector.class.getName()).log(Level.SEVERE, "There is a problem when connecting URI " + uri + "", e);
+                LOG.warn("There is a problem when connecting URI " + uri + "", e);
             } catch (IllegalArgumentException e) {
-                Logger.getLogger(FeedCollector.class.getName()).log(Level.SEVERE, "There is a problem when connecting URI " + uri + "", e);
+                LOG.warn("There is a problem when connecting URI " + uri + "", e);
             } catch (FeedException e) {
-                Logger.getLogger(FeedCollector.class.getName()).log(Level.SEVERE, "There is a problem when connecting URI " + uri + "", e);
+                LOG.warn("There is a problem when connecting URI " + uri + "", e);
             }
         }
         return syndEntryList;
     }
-
-
 
 }

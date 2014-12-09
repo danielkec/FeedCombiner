@@ -43,11 +43,10 @@ public class ManageResource {
 
     /**
      * Creates new combined feed based on suplied params.
-     * 
+     *
      * @param title title of new combined feed, works as id, must be unique
      * @param description description of newly created combined feed
      * @param urls feed sources of new combined feed
-     * @return 
      */
     @GET
     @Path("create")
@@ -73,6 +72,14 @@ public class ManageResource {
         }
     }
 
+    /**
+     * Updates combined feed based on suplied params. Identifies right one by
+     * title.
+     *
+     * @param title title of new combined feed, works as id, must be unique
+     * @param description description of newly created combined feed
+     * @param urls feed sources of new combined feed
+     */
     @GET
     @Path("update")
     @Produces("application/json")
@@ -98,6 +105,12 @@ public class ManageResource {
         }
     }
 
+    /**
+     * Deletes CombinedFeed by suplied title
+     *
+     * @param title identificator of the CombineFeed to be deleted
+     * @return JSON: {deleted:true"} or {deleted:false"}
+     */
     @GET
     @Path("delete")
     @Produces("application/json")

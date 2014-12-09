@@ -27,12 +27,19 @@ public interface CombinedFeedDao {
      */
     public boolean containsCombinedFeed(String title);
 
+    /**
+     * Returns CombineFeed by it's title/name, name is used as indentifier.
+     *
+     * @param name CombinedFeed name to be used as a key
+     * @return CombinedFeed with specefied name or null if nothing is found
+     */
     public CombinedFeed getCombinedFeedByName(String name);
 
     /**
-     * Creates new combined feed
+     * Add CombinedFeed to the datastore.
      *
-     * @param combinedFeed
+     * @param combinedFeed to be added to InMemoryDataStore
+     * @see InMemoryDataStore
      */
     public void createCombinedFeed(CombinedFeed combinedFeed);
 

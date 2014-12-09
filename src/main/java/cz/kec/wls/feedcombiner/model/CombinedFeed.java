@@ -21,12 +21,15 @@ import javax.xml.bind.annotation.XmlTransient;
 public class CombinedFeed implements Serializable {
 
     private final String name;
+    /**
+     * URL save version if CombinedFeed name
+     */
     private final String encodedName;
     private String description;
     private List<URI> uris = new ArrayList<URI>();
     @XmlTransient//dont need entries in the overview
     private List<SyndEntry> entries = new ArrayList<SyndEntry>();
-    
+
     /**
      * Create new combined feed.
      *
@@ -98,10 +101,22 @@ public class CombinedFeed implements Serializable {
         this.uris = uris;
     }
 
+    /**
+     * Returns all entries of this CombinedFeed.
+     *
+     * @return List of SyndEntries
+     * @see SyndEntry
+     */
     public List<SyndEntry> getEntries() {
         return entries;
     }
 
+    /**
+     * Set entries to this CombinedFeed.
+     *
+     * @param entries List of SyndEntries
+     * @see SyndEntry
+     */
     public void setEntries(List<SyndEntry> entries) {
         this.entries = entries;
     }

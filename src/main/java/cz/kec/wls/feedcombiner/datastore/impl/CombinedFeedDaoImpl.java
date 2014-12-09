@@ -35,6 +35,11 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         getKeySet();
     }
 
+    /**
+     * Returns all combined feeds saved in Feed Combiner
+     *
+     * @return all availaible combined feeds
+     */
     @Override
     public List<CombinedFeed> getAllCombinedFeeds() {
         InMemoryKeySet keySet = getKeySet();
@@ -45,6 +50,12 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         return feedList;
     }
 
+    /**
+     * Checks if CombinedFeed with same id/title is already persisted
+     *
+     * @param title
+     * @return true if contains feed with same title
+     */
     @Override
     public boolean containsCombinedFeed(String title) {
         //reserved title/id for keyset
@@ -55,6 +66,12 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         return keySet.contains(title);
     }
 
+    /**
+     * Add CombinedFeed to the datastore.
+     *
+     * @param combinedFeed to be added to InMemoryDataStore
+     * @see InMemoryDataStore
+     */
     @Override
     public synchronized void createCombinedFeed(CombinedFeed combinedFeed) {
         this.inMemoryDataStore.put(combinedFeed.getName(), combinedFeed);
@@ -62,6 +79,14 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         keySet.add(combinedFeed.getName());
     }
 
+    /**
+     * Updates persisted combined feed. If there isn't already persisted
+     * combined feed does nothing and returns false
+     *
+     * @param combinedFeed updated combined feed
+     * @return true if updated / false if there wasn't same combined feed to
+     * update
+     */
     @Override
     public synchronized boolean updateCombinedFeed(CombinedFeed combinedFeed) {
         if (containsCombinedFeed(combinedFeed.getName())) {
@@ -72,6 +97,13 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         }
     }
 
+    /**
+     * Removes persisted combine feed. Or return false if there is nothing to
+     * remove.
+     *
+     * @param title id of combine feed to be removed
+     * @return true on succesfull removal
+     */
     @Override
     public synchronized boolean deleteCombinedFeed(String title) {
         InMemoryKeySet keySet = getKeySet();
@@ -84,13 +116,24 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         return true;
     }
 
+    /**
+     * Returns CombineFeed by it's title/name, name is used as indentifier.
+     *
+     * @param name CombinedFeed name to be used as a key
+     * @return CombinedFeed with specefied name or null if nothing is found
+     */
     @Override
     public CombinedFeed getCombinedFeedByName(String name) {
         return this.inMemoryDataStore.get(name, CombinedFeed.class);
     }
 
-
-    private InMemoryKeySet getKeySet(){
+    /**
+     * Gets InMemoryKeySet or creates new one if doesn't exist yet.
+     *
+     * @return KeySet from InMemoryDataStore
+     * @see InMemoryDataStore
+     */
+    private InMemoryKeySet getKeySet() {
         InMemoryKeySet inMemoryKeySet
                 = this.inMemoryDataStore.get(InMemoryKeySet.KEYSET_KEY, InMemoryKeySet.class);
         if (inMemoryKeySet == null) {
