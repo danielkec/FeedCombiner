@@ -14,7 +14,7 @@ import java.util.List;
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 9, 2014
  */
-public abstract class CombinedFeedUpdater {
+public abstract class FeedUpdater {
 
     /**
      * Updates all combined feeds in the InMemoryDataStore.

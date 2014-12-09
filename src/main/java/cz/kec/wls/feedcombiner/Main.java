@@ -1,5 +1,6 @@
 package cz.kec.wls.feedcombiner;
 
+import cz.kec.wls.feedcombiner.feeds.FeedUpdater;
 import cz.kec.wls.feedcombiner.rs.ExposeResource;
 import cz.kec.wls.feedcombiner.rs.ManageResource;
 import cz.kec.wls.feedcombiner.utils.MockUtils;
@@ -17,7 +18,6 @@ import org.slf4j.LoggerFactory;
 public class Main {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    //private static final String URL = "http://localhost:8182/feedcombiner/";
     private static final String URL = "http://localhost:8182";
     private static final String RESOURCE = "feedcombiner";
     private static final String URL_RESOURCE = URL + "/" + RESOURCE;
@@ -27,7 +27,7 @@ public class Main {
             ResourceConfig resourceConfig = new ResourceConfig(ExposeResource.class,ManageResource.class);
             HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(URL_RESOURCE), resourceConfig);
 
-            URI fullUrl = URI.create(URL_RESOURCE+"/expose");
+            URI fullUrl = URI.create(URL_RESOURCE+"/rest/expose");
 //                        URI.create(URL_RESOURCE+"/"+resourceConfig
 //                                            .getApplication()
 //                                            .getClasses()
@@ -39,7 +39,7 @@ public class Main {
 
 
             createMockFeeds();
-            MockUtils.mockSync();
+            FeedUpdater.updateAll();
 
             if(Desktop.isDesktopSupported()){
                 try {

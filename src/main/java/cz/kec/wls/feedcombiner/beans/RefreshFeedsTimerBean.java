@@ -1,6 +1,7 @@
 package cz.kec.wls.feedcombiner.beans;
 
 import cz.kec.wls.feedcombiner.exceptions.WrongIntervalException;
+import cz.kec.wls.feedcombiner.feeds.FeedUpdater;
 import cz.kec.wls.feedcombiner.utils.DateUtils;
 import cz.kec.wls.feedcombiner.utils.MockUtils;
 import java.util.Date;
@@ -53,7 +54,7 @@ public static final int MAX_INTERVAL        = Integer.MAX_VALUE;
     public void refreshFeedsTimer() {
         LOG.info("Automatically refreshing feeds. Next refresh {}",
                 DateUtils.humanReadableDuration(new Date(),this.timer.getNextTimeout()));
-        MockUtils.mockSync();
+        FeedUpdater.updateAll();
         LOG.info("Refreshing DONE!");
     }
     
