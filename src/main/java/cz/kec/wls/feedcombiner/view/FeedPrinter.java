@@ -20,7 +20,7 @@ public class FeedPrinter {
     private final Logger LOG = LoggerFactory.getLogger(FeedPrinter.class);
 
     public static final String FEED_TYPE_ATOM10 = "atom_1.0";
-    
+
     private final CombinedFeed feed;
 
     /**
@@ -38,7 +38,7 @@ public class FeedPrinter {
     public String printToHTML(){
         return XMLUtils.transform(printToATOM(), FeedPrinter.class.getResourceAsStream("atomTohtml.xsl"));
     }
-    
+
     /**
      * Returns atom format converted to JSON.
      * @return JSON doc crated from the ATOM format
@@ -46,7 +46,10 @@ public class FeedPrinter {
     public String printToJSON(){
         return JSONUtils.xmlToJSON(printToATOM());
     }
-    
+    /**
+     * Returns feed in atom format
+     * @return ATOM format
+     */
     public String printToATOM(){
         return printToString(FEED_TYPE_ATOM10);
     }
