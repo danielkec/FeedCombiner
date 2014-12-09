@@ -10,31 +10,39 @@ import org.json.JSONObject;
 import org.json.XML;
 
 /**
+ * Simple utils for marshaling objects to json, and converting XML to JSON.
  *
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since Dec 4, 2014
  */
-public class JSONUtils {
-    public static String toJSON(Object obj){
+public abstract class JSONUtils {
+
+    public static String toJSON(Object obj) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
         mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-	try {
+        try {
             return mapper.writeValueAsString(obj);
-	} catch (JsonGenerationException ex) {
-            throw new RuntimeException("Error when marshalling bean to JSON."+ex);
-	} catch (IOException ex) {
-            throw new RuntimeException("Error when marshalling bean to JSON."+ex);
+        } catch (JsonGenerationException ex) {
+            throw new RuntimeException("Error when marshalling bean to JSON." + ex);
+        } catch (IOException ex) {
+            throw new RuntimeException("IO Error when marshalling bean to JSON." + ex);
         }
     }
 
-    public static String xmlToJSON(String xml){
+    /**
+     * Converts XML doc to JSON doc
+     *
+     * @param xml doc to be converted to JSON
+     * @return JSON doc created from suplied xml
+     */
+    public static String xmlToJSON(String xml) {
         try {
             JSONObject xmlJSONObj = XML.toJSONObject(xml);
-            String jsonPrettyPrintString = xmlJSONObj.toString();
-            return jsonPrettyPrintString;
+            String jsonString = xmlJSONObj.toString();
+            return jsonString;
         } catch (JSONException ex) {
-            throw new RuntimeException("Error when converting xml to json."+ex);
+            throw new RuntimeException("Error when converting xml to json." + ex);
         }
     }
 }

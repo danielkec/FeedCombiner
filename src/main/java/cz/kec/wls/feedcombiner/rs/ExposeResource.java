@@ -15,76 +15,110 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * Exposes the contents of a combined feed in HTML, JSON and ATOM format
+ * Exposes the contents of a combined feed in HTML, JSON and ATOM format.
+ *
  * @author Daniel Kec <daniel at kecovi.cz>
+ * @since Dec 5, 2014
  */
 @Path("expose")
 public class ExposeResource {
+
     private Logger LOG = LoggerFactory.getLogger(ExposeResource.class);
 
+    /**
+     * Rest endpoint returning html UI Overview of all combined feeds in the
+     * InMemoryStore.
+     *
+     * @return HTML UI overview
+     */
     @GET
     @Produces("text/html")
-    public String getOverView(){
+    public String getOverView() {
         try {
             OverViewBean overViewBean = new OverViewBean("Feed Combiner - overview");
             CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
             overViewBean.getCombinedFeedList().addAll(combinedFeedDao.getAllCombinedFeeds());
             String xmlString = overViewBean.marshal();
-            return
-            XMLUtils.transform(xmlString, OverViewBean.class.getResourceAsStream("overview.xsl"));
+            return XMLUtils.transform(xmlString, OverViewBean.class.getResourceAsStream("overview.xsl"));
         } catch (MarshalException ex) {
-            LOG.error("Error ", ex);
+            LOG.error("Exception during marchalling of the overview feed ", ex);
             return ex.getMessage();
         }
     }
 
+  /**
+     * Rest endpoint returning HTML format of combined feed based on supplied name.
+     *
+     * @param feedName Name of the combined to be returned in HTML format
+     * @return requested combined feed in HTML format
+     */
     @GET
     @Path("/html/{feedName}")
     @Produces("text/html")
-    public String getCombinedHTMLByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedHTMLByName with name {}",feedName);
-        try{
-        return prepCombinedFeedPrinterByName(feedName).printToHTML();
-         } catch (Exception ex) {
-            LOG.error("Error ", ex);
+    public String getCombinedHTMLByName(@PathParam("feedName") String feedName) {
+        LOG.info("entering getCombinedHTMLByName with name {}", feedName);
+        try {
+            return prepCombinedFeedPrinterByName(feedName).printToHTML();
+        } catch (Exception ex) {
+            LOG.error("Exception when printing combined feed as HTML ", ex);
             return ex.getMessage();
         } catch (Error ex) {
-            LOG.error("Error ", ex);
-            return ex.getMessage();
-        }
-    }
-    @GET
-    @Path("/json/{feedName}")
-    @Produces("application/json")
-    public String getCombinedJSONByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedJSONByName with name {}",feedName);
-        try{
-        return prepCombinedFeedPrinterByName(feedName).printToJSON();
-         } catch (Exception ex) {
-            LOG.error("Error ", ex);
-            return ex.getMessage();
-        } catch (Error ex) {
-            LOG.error("Error ", ex);
-            return ex.getMessage();
-        }
-    }
-    @GET
-    @Path("/atom/{feedName}")
-    @Produces("application/xml")
-    public String getCombinedATOMByName(@PathParam("feedName") String feedName){
-        LOG.info("entering getCombinedATOMByName with name {}",feedName);
-        try{
-        return prepCombinedFeedPrinterByName(feedName).printToATOM();
-         } catch (Exception ex) {
-            LOG.error("Error ", ex);
-            return ex.getMessage();
-        } catch (Error ex) {
-            LOG.error("Error ", ex);
+            LOG.error("Error when printing combined feed as HTML", ex);
             return ex.getMessage();
         }
     }
 
-    public FeedPrinter prepCombinedFeedPrinterByName(String feedName){
+  /**
+     * Rest endpoint returning JSON format of combined feed based on supplied name.
+     *
+     * @param feedName Name of the combined to be returned in JSON format
+     * @return requested combined feed in JSON format
+     */
+    @GET
+    @Path("/json/{feedName}")
+    @Produces("application/json")
+    public String getCombinedJSONByName(@PathParam("feedName") String feedName) {
+        LOG.info("entering getCombinedJSONByName with name {}", feedName);
+        try {
+            return prepCombinedFeedPrinterByName(feedName).printToJSON();
+        } catch (Exception ex) {
+            LOG.error("Exception when printing combined feed as JSON ", ex);
+            return ex.getMessage();
+        } catch (Error ex) {
+            LOG.error("Error when printing combined feed as JSON", ex);
+            return ex.getMessage();
+        }
+    }
+
+    /**
+     * Rest endpoint returning ATOM format of combined feed based on supplied name.
+     *
+     * @param feedName Name of the combined to be returned in ATOM format
+     * @return requested combined feed in ATOM format
+     */
+    @GET
+    @Path("/atom/{feedName}")
+    @Produces("application/xml")
+    public String getCombinedATOMByName(@PathParam("feedName") String feedName) {
+        LOG.info("entering getCombinedATOMByName with name {}", feedName);
+        try {
+            return prepCombinedFeedPrinterByName(feedName).printToATOM();
+        } catch (Exception ex) {
+            LOG.error("Exception when printing combined feed as ATOM", ex);
+            return ex.getMessage();
+        } catch (Error ex) {
+            LOG.error("Error when printing combined feed as ATOM", ex);
+            return ex.getMessage();
+        }
+    }
+
+    /**
+     * Preparing FeedPrinter
+     *
+     * @param feedName name of the combined feed to be printed
+     * @return printer capable to print combined feed to HTML/ATOM/JSON
+     */
+    private FeedPrinter prepCombinedFeedPrinterByName(String feedName) {
         CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
         CombinedFeed combinedFeed = combinedFeedDao.getCombinedFeedByName(feedName);
         return new FeedPrinter(combinedFeed);

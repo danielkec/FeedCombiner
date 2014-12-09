@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
  * @since Dec 5, 2014
  */
 public class FeedPrinter {
-    private Logger LOG = LoggerFactory.getLogger(FeedPrinter.class);
+    private final Logger LOG = LoggerFactory.getLogger(FeedPrinter.class);
 
     public static final String FEED_TYPE_ATOM10 = "atom_1.0";
-
+    
     private final CombinedFeed feed;
 
     /**
@@ -31,13 +31,22 @@ public class FeedPrinter {
         this.feed = feed;
     }
 
+    /**
+     * Returns ATOM format transformed to the HTML representation.
+     * @return HTML doc repr. feed entries.
+     */
     public String printToHTML(){
         return XMLUtils.transform(printToATOM(), FeedPrinter.class.getResourceAsStream("atomTohtml.xsl"));
     }
+    
+    /**
+     * Returns atom format converted to JSON.
+     * @return JSON doc crated from the ATOM format
+     */
     public String printToJSON(){
         return JSONUtils.xmlToJSON(printToATOM());
-        //return JSONUtils.toJSON(this.feed);
     }
+    
     public String printToATOM(){
         return printToString(FEED_TYPE_ATOM10);
     }

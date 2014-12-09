@@ -17,27 +17,45 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * RESTful resource through which you can manage (create, delete) a combined feed
+ * RESTful resource through which you can manage (create, delete, update) a
+ * combined feeds.
+ *
  * @author Daniel Kec <daniel at kecovi.cz>
+ * @since Dec 6, 2014
  */
 @Path("manage")
 public class ManageResource {
+
     private final Logger LOG = LoggerFactory.getLogger(ManageResource.class);
+
+    /**
+     * Returns all combined feed in the json format.
+     *
+     * @return all combined feeds in InMemoryDataStore
+     */
     @GET
     @Produces("application/json")
-    public String getAllCombinedFeeds(){
+    public String getAllCombinedFeeds() {
         CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
         List<CombinedFeed> combinedFeeds = combinedFeedDao.getAllCombinedFeeds();
         return JSONUtils.toJSON(combinedFeeds);
     }
+
+    /**
+     * Creates new combined feed based on suplied params.
+     * 
+     * @param title title of new combined feed, works as id, must be unique
+     * @param description description of newly created combined feed
+     * @param urls feed sources of new combined feed
+     * @return 
+     */
     @GET
     @Path("create")
-    @Produces("application/json")
-    public String createCombinedFeed(
-            @QueryParam("title")        String title,
-            @QueryParam("description")  String description,
-            @QueryParam("urls")         List<String> urls){
-        LOG.info("entering createCombinedFeed title: {} desc: {} urls: {}",title,description,urls);
+    public Response createCombinedFeed(
+            @QueryParam("title") String title,
+            @QueryParam("description") String description,
+            @QueryParam("urls") List<String> urls) {
+        LOG.info("entering createCombinedFeed title: {} desc: {} urls: {}", title, description, urls);
         try {
             CombinedFeed combinedFeed = new CombinedFeed(title, description);
             for (String url : urls) {
@@ -45,23 +63,24 @@ public class ManageResource {
             }
             CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
             combinedFeedDao.createCombinedFeed(combinedFeed);
-            return JSONUtils.toJSON(combinedFeed);
+            return Response.ok().build();
         } catch (Exception e) {
             LOG.error("Exception during creation of the conbined feed.", e);
-            return e.getMessage();
+            return Response.serverError().build();
         } catch (Error e) {
             LOG.error("Error during creation of the conbined feed.", e);
-            return e.getMessage();
+            return Response.serverError().build();
         }
     }
+
     @GET
     @Path("update")
     @Produces("application/json")
     public Response updateCombinedFeed(
-            @QueryParam("title")        String title,
-            @QueryParam("description")  String description,
-            @QueryParam("urls")         List<String> urls){
-        LOG.info("entering updateCombinedFeed title: {} desc: {} urls: {}",title,description,urls);
+            @QueryParam("title") String title,
+            @QueryParam("description") String description,
+            @QueryParam("urls") List<String> urls) {
+        LOG.info("entering updateCombinedFeed title: {} desc: {} urls: {}", title, description, urls);
         try {
             CombinedFeed combinedFeed = new CombinedFeed(title, description);
             for (String url : urls) {
@@ -82,15 +101,15 @@ public class ManageResource {
     @GET
     @Path("delete")
     @Produces("application/json")
-    public String deleteCombinedFeed(@QueryParam("title") String title){
-        LOG.info("entering deleteCombinedFeed title: {}",title);
+    public String deleteCombinedFeed(@QueryParam("title") String title) {
+        LOG.info("entering deleteCombinedFeed title: {}", title);
         try {
             CombinedFeedDao combinedFeedDao = DaoFactory.getCombinedFeedDao();
             boolean succesfullyDeleted = combinedFeedDao.deleteCombinedFeed(title);
-            Map<String,Boolean> map = new HashMap<String,Boolean>(1);
+            Map<String, Boolean> map = new HashMap<String, Boolean>(1);
             map.put("deleted", succesfullyDeleted);
             String result = JSONUtils.toJSON(map);
-            LOG.info("response "+result);
+            LOG.info("response " + result);
             return result;
         } catch (Exception e) {
             LOG.error("Exception during creation of the conbined feed.", e);
