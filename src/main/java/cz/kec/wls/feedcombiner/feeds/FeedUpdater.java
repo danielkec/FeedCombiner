@@ -29,6 +29,7 @@ public abstract class FeedUpdater {
             List<SyndFeed> syndFeeds = feedCollector.collect();
             FeedMixer feedMixer = new FeedMixer(syndFeeds);
             feedMixer.mix(combinedFeed);
+            DaoFactory.getCombinedFeedDao().updateCombinedFeed(combinedFeed);
         }
     }
 }

@@ -5,6 +5,7 @@ import cz.kec.wls.feedcombiner.datastore.InMemoryDataStore;
 import cz.kec.wls.feedcombiner.model.CombinedFeed;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.SerializationUtils;
 
 /**
  * Implementation of CombinedFeedDao. Because there is no keyset in the
@@ -45,7 +46,9 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
         InMemoryKeySet keySet = getKeySet();
         ArrayList<CombinedFeed> feedList = new ArrayList<CombinedFeed>();
         for (String key : keySet) {
-            feedList.add(this.inMemoryDataStore.get(key, CombinedFeed.class));
+            feedList.add(
+                    SerializationUtils.clone(this.inMemoryDataStore.get(key, CombinedFeed.class))
+            );
         }
         return feedList;
     }
@@ -124,7 +127,8 @@ public class CombinedFeedDaoImpl implements CombinedFeedDao {
      */
     @Override
     public CombinedFeed getCombinedFeedByName(String name) {
-        return this.inMemoryDataStore.get(name, CombinedFeed.class);
+        CombinedFeed combinedFeed = this.inMemoryDataStore.get(name, CombinedFeed.class);
+        return SerializationUtils.clone(combinedFeed);
     }
 
     /**
