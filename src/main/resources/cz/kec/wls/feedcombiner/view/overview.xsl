@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Document   : overview.xsl
-    Created on : 5. prosinec 2014, 22:30
+    Created on : Dec 5, 2014, 22:30
     Author     : Daniel Kec
     Description:
         Creates html which is served as combined feed overview.
-        Used as UI for all the CRUD ops.
+        Used as UI for all the CRUD ops., ViewModel for Knockout.js binding is 
+        in the file KOModel.js. Logic for countdown in Main.js with some other 
+        tools.
 -->
 
 <xsl:stylesheet

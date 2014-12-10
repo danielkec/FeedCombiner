@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Document   : atomTohtml.xsl
-    Created on : 5. prosinec 2014, 22:30
+    Created on : Dec 5, 2014, 22:30
     Author     : Daniel Kec
     Description:
         Creates html which is served as combined feed HTML form.
+        Logic for redirect functions is located in the file Main.js
 -->
 
 <xsl:stylesheet
@@ -35,6 +36,7 @@
             <xsl:value-of select="atom:updated"/>
         </div>
         <p>
+            <!-- disable-output-escaping is needed so entry context can be rendered by browser(not escaped)-->
             <xsl:value-of select="atom:summary" disable-output-escaping="yes"/>
         </p>
     </xsl:template>

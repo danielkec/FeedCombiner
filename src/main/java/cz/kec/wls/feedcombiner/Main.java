@@ -3,7 +3,6 @@ package cz.kec.wls.feedcombiner;
 import cz.kec.wls.feedcombiner.feeds.FeedUpdater;
 import cz.kec.wls.feedcombiner.rs.ExposeResource;
 import cz.kec.wls.feedcombiner.rs.ManageResource;
-import cz.kec.wls.feedcombiner.utils.MockUtils;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
