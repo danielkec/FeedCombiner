@@ -11,16 +11,15 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Testing of InMemoryDataStore implementation.
+ * 
  * @author Daniel Kec <daniel at kecovi.cz>
  */
 public class InMemoryDataStoreSingletonTest {
@@ -94,10 +93,9 @@ public class InMemoryDataStoreSingletonTest {
     @Test(expected=ClassCastException.class)
     public void testGetClassCast() {
         System.out.println("put");
-        String key = "key";
+        String key = "testGetClassCast";
         String data = "data";      
         InMemoryDataStore instance = InMemoryDataStoreSingleton.getInstance();
-        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         assertNull(instance.put(key, data));
         assertEquals("data",instance.get(key, String.class));
         Serializable result = instance.get(key, Integer.class);
@@ -110,11 +108,10 @@ public class InMemoryDataStoreSingletonTest {
     @Test
     public void testPutGetOldValue() {
         System.out.println("testPutGetOldValue");
-        String key = "key";
+        String key = "testPutGetOldValue";
         String data = "data";
         String data2 = "data2";
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
-        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         assertNull(instance.put(key, data));
         assertEquals(data,instance.put(key, data2));
         assertEquals(data2,instance.get(key, String.class));
@@ -129,7 +126,6 @@ public class InMemoryDataStoreSingletonTest {
         String key = null;
         String data = "data";       
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
-        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         instance.put(key, data);
     }
 
@@ -140,7 +136,6 @@ public class InMemoryDataStoreSingletonTest {
     public void testGet() {
         System.out.println("testGet");
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
-        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         Object result = instance.get("key",String.class);
         assertNull(result);
     }
@@ -152,7 +147,6 @@ public class InMemoryDataStoreSingletonTest {
     public void testGetNull() {
         System.out.println("testGetNull");
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
-        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         Object result = instance.get("key",String.class);
         assertNull(result);
     }
@@ -160,7 +154,7 @@ public class InMemoryDataStoreSingletonTest {
 
 
     /**
-     * Test of save method, of class InMemoryDataStoreSingleton.
+     * Test of save method, testing if output stream is not closing
      */
     @Test
     public void testSave() throws Exception {
@@ -179,7 +173,7 @@ public class InMemoryDataStoreSingletonTest {
     }
 
     /**
-     * Test of load method, of class InMemoryDataStoreSingleton.
+     * Test of load method, , testing if input stream is not closing
      * @throws java.lang.Exception
      */
     @Test
