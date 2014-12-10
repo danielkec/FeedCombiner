@@ -85,14 +85,9 @@ public class FeedPrinterTest {
                 }else if(TidyMessage.Level.INFO.equals(level)){
                     System.out.println(msg);
                 }
-               // fail(msg);
             }
         });
         Node node = tidy.parse(bais,System.out);
-
-
-       // tidy.parse(bais, System.out); // run tidy, providing an input and output stream
-
     }
 
     /**
