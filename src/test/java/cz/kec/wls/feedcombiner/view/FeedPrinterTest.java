@@ -23,16 +23,14 @@ import org.w3c.tidy.TidyMessage;
 import org.w3c.tidy.TidyMessageListener;
 
 /**
- *
+ * Tisting validity of printed feeds in various formats
+ * 
  * @author Daniel Kec <daniel at kecovi.cz>
  * @since 10 Dec 2014
  */
 public class FeedPrinterTest {
 
     private CombinedFeed savedCombinedFeed;
-
-    public FeedPrinterTest() {
-    }
 
     @Before
     public void setUp() {
@@ -62,18 +60,13 @@ public class FeedPrinterTest {
         System.out.println("printToHTML");
         FeedPrinter instance = new FeedPrinter(this.savedCombinedFeed);
         String result = instance.printToHTML();
-
         //System.out.println(result);
-        
         ByteArrayInputStream bais = new ByteArrayInputStream(result.getBytes("UTF-8"));
-        
-        Tidy tidy = new Tidy(); // obtain a new Tidy instance
+        Tidy tidy = new Tidy();
         tidy.setXHTML(false);
         tidy.setOnlyErrors(true);
-        
         tidy.setErrout(new PrintWriter(System.err));
         tidy.setMessageListener(new TidyMessageListener() {
-
             @Override 
             public void messageReceived(TidyMessage message) {
                 TidyMessage.Level level = TidyMessage.Level.fromCode(message.getErrorCode());
@@ -87,7 +80,7 @@ public class FeedPrinterTest {
                 }
             }
         });
-        Node node = tidy.parse(bais,System.out);
+        tidy.parse(bais,System.out);
     }
 
     /**

@@ -28,9 +28,6 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
 
     private static HttpServer httpServer;
 
-    public ManageResourceTest() {
-    }
-
     @BeforeClass
     public static void setUpClass() {
         ResourceConfig resourceConfig = new ResourceConfig(ManageResource.class);
@@ -60,7 +57,7 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
               .queryParam("urls",  "http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(String.class);
-        System.out.println(response);
+        //System.out.println(response);
     }
 
     /**
@@ -76,7 +73,7 @@ private static final String URL_RESOURCE    = URL+"/"+RESOURCE;
 
 
         Assert.assertTrue(response.contains("\"name\":\"testGetAllCombinedFeeds\""));
-        System.out.println(response);
+        //System.out.println(response);
 
     }
 
