@@ -1,6 +1,7 @@
 package cz.kec.wls.feedcombiner.datastore.impl;
 
 import cz.kec.wls.feedcombiner.datastore.DaoFactory;
+import cz.kec.wls.feedcombiner.datastore.InMemoryDataStore;
 import cz.kec.wls.feedcombiner.model.CombinedFeed;
 import cz.kec.wls.feedcombiner.utils.JSONUtils;
 import java.io.ByteArrayInputStream;
@@ -61,14 +62,6 @@ public class InMemoryDataStoreSingletonTest {
 
     private CombinedFeed savedCombinedFeed;
 
-    public InMemoryDataStoreSingletonTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-
-    }
-
     @AfterClass
     public static void tearDownClass() {
     }
@@ -84,16 +77,13 @@ public class InMemoryDataStoreSingletonTest {
         uris.add(URI.create("http://feeds.delicious.com/v2/rss/OracleTechnologyNetwork/otnheadlines"));
     }
 
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of getInstance method, of class InMemoryDataStoreSingleton.
      */
     @Test
     public void testGetInstance() {
         System.out.println("getInstance");
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         InMemoryDataStoreSingleton result = InMemoryDataStoreSingleton.getInstance();
         assertNotNull(result);
     }
@@ -105,8 +95,9 @@ public class InMemoryDataStoreSingletonTest {
     public void testGetClassCast() {
         System.out.println("put");
         String key = "key";
-        String data = "data";
-        InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
+        String data = "data";      
+        InMemoryDataStore instance = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         assertNull(instance.put(key, data));
         assertEquals("data",instance.get(key, String.class));
         Serializable result = instance.get(key, Integer.class);
@@ -116,15 +107,30 @@ public class InMemoryDataStoreSingletonTest {
     /**
      * Test of put method, of class InMemoryDataStoreSingleton.
      */
+    @Test
     public void testPutGetOldValue() {
         System.out.println("testPutGetOldValue");
         String key = "key";
         String data = "data";
         String data2 = "data2";
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         assertNull(instance.put(key, data));
         assertEquals(data,instance.put(key, data2));
         assertEquals(data2,instance.get(key, String.class));
+    }
+    
+    /**
+     * Test of put method, of class InMemoryDataStoreSingleton.
+     */
+    @Test(expected=Exception.class)
+    public void testPutWithKeyNull() {
+        System.out.println("testPutGetOldValue");
+        String key = null;
+        String data = "data";       
+        InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
+        instance.put(key, data);
     }
 
     /**
@@ -134,6 +140,7 @@ public class InMemoryDataStoreSingletonTest {
     public void testGet() {
         System.out.println("testGet");
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         Object result = instance.get("key",String.class);
         assertNull(result);
     }
@@ -145,6 +152,7 @@ public class InMemoryDataStoreSingletonTest {
     public void testGetNull() {
         System.out.println("testGetNull");
         InMemoryDataStoreSingleton instance = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         Object result = instance.get("key",String.class);
         assertNull(result);
     }
@@ -179,6 +187,7 @@ public class InMemoryDataStoreSingletonTest {
         System.out.println("testLoad");
         CloseAwareInputStream is = new CloseAwareInputStream(Base64.decodeBase64(SAVED_IN_MEMORY_STORE));
         InMemoryDataStoreSingleton inMemoryDataStore = InMemoryDataStoreSingleton.getInstance();
+        DaoFactory.getCombinedFeedDao().deleteAllCombinedFeeds();//polution from other tests
         inMemoryDataStore.load(is);
         Assert.assertFalse(is.isClosed);
         is.close();

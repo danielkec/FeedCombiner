@@ -65,7 +65,10 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
      * @return {@code null} if there are no data stored under the given {@code key}
      *          or any replaced data previously stored under the {@code key}.
      *
-     * @throws NullPointerException     in case the {@code key} is {@code null}.
+     * @throws NullPointerException in case the {@code key} is {@code null}.
+       @throws ClassCastException   in case the data stored under the given {@code key}
+     *                              cannot be cast to the Java type represented by
+     *                              {@code data} parameter.
      */
     @Override
     public <T extends Serializable> Serializable put(String key, T data) {
@@ -73,9 +76,13 @@ public class InMemoryDataStoreSingleton implements InMemoryDataStore{
             throw new NullPointerException("Key is null.");
         }
         if(data == null){
-            return (T)this.concurrentHashMap.remove(key);
+            return (Serializable)this.concurrentHashMap.remove(key);
         }
-        return (T)this.concurrentHashMap.put(key, data);
+        Object object = (T)this.concurrentHashMap.put(key, data);
+        if(data.getClass().isInstance(object) || object == null){
+            return (T)object;
+        }
+        throw new ClassCastException("Stored value is "+object.getClass().getName()+" not "+data.getClass().getName());
     }
 
     /**
