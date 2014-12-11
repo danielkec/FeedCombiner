@@ -34,5 +34,5 @@ Expose rest endpoint returns html UI with overview of the all combined feeds(the
 |http://localhost:8080/rest/timer|Returns time left to the next feeds refresh in seconds|
 |http://localhost:8080/rest/timer/getinterval|Returns current interval between refreshes in seconds|
 http://localhost:8080/rest/timer/setinterval|Sets new interval in seconds between the feed refreshes, query param is: interval|
-```
+
 
