@@ -12,7 +12,4 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
         new events from this newly created combined feed the application exposes the feed entries
         as either a HTML page or an JSON object.
     </description>
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
 </web-app>
